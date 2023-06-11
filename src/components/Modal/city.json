@@ -1,0 +1,28 @@
+[
+    { "id": 1, "title": "آذربایجان غربی" ,"parent":0},
+    { "id": 2, "title": "آذربایجان شرقی" ,"parent":0},
+    { "id": 27, "title": "اردبیل" ,"parent":0},
+    { "id": 3, "title": "اصفهان" ,"parent":0},
+    { "id": 17, "title": "تبریز" ,"parent":0},
+    { "id": 21, "title": "تهران" ,"parent":0},
+    { "id": 84, "title": "مشهد" ,"parent":0},
+    { "id": 34, "title": "فارس" ,"parent":0},
+    { "id": 99, "title": "یزد" ,"parent":0},
+
+    { "id": 111, "title": "اسلام شهر" ,"parent":21},
+    { "id": 112, "title": "بومهن" ,"parent":21},
+    { "id": 113, "title": "تهران" ,"parent":21},
+    { "id": 114, "title": "فشم" ,"parent":21},
+    { "id": 115, "title": "لواسان" ,"parent":21},
+    { "id": 116, "title": "ورامین" ,"parent":21},
+
+    { "id": 131, "title": "خمینی شهر" ,"parent":3},
+    { "id": 132, "title": "اصفهان" ,"parent":3},
+    { "id": 133, "title": "سمیرم" ,"parent":3},
+    { "id": 134, "title": "شاهین شهر" ,"parent":3},
+    { "id": 135, "title": "لنجان" ,"parent":3},
+    { "id": 136, "title": "فلاورجان" ,"parent":3},
+    { "id": 137, "title": "فولادشهر" ,"parent":3},
+    { "id": 138, "title": "گلپایگان" ,"parent":3},
+    { "id": 139, "title": "مبارکه" ,"parent":3}
+]

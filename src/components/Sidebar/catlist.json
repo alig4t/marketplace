@@ -1,0 +1,30 @@
+[
+    {"id":14,"title":"املاک","parent":0,"icon":"house-svgrepo-com (3).svg"},
+    {"id":15,"title":"وسایل نقلیه","parent":0, "icon":"car-svgrepo-com (2).svg"},
+    {"id":16,"title":"کالای دیجیتال","parent":0,"icon":"smartphone-svgrepo-com.svg"},
+    {"id":17,"title":"خانه و آشپزخانه","parent":0,"icon":"oven-svgrepo-com.svg"},
+    {"id":18,"title":"خدمات","parent":0,"icon":"broom-svgrepo-com (1).svg"},
+    {"id":19,"title":"وسایل شخصی","parent":0,"icon":"smartwatch-svgrepo-com.svg"},
+    {"id":20,"title":"سرگرمی و فراغت","parent":0,"icon":"train-timetable-italy-svgrepo-com.svg"},
+    {"id":21,"title":"اجتماعی","parent":0,"icon":"people-multiple-svgrepo-com.svg"},
+    {"id":22,"title":"استخدام و کاریابی","parent":0,"icon":"trip-suitcase-svgrepo-com.svg"},
+
+    {"id":31,"title":"فروش مسکونی","parent":14},
+    {"id":32,"title":"اجاره مسکونی","parent":14},
+    {"id":33,"title":"فروش اداری و تجاری","parent":14},
+    {"id":34,"title":"اجاره اداری و تجاری","parent":14},
+    {"id":35,"title":"اجاره کوتاه مدت","parent":14},
+
+    {"id":41,"title":"آپارتمان","parent":31},
+    {"id":42,"title":"خانه و ویلا","parent":31},
+    {"id":43,"title":"زمین و کلنگی","parent":31},
+
+    {"id":51,"title":"خودرو","parent":15},
+    {"id":52,"title":"موتورسیکلت","parent":15},
+    {"id":53,"title":"قطعات یدکی و لوازم جانبی","parent":15},
+    {"id":54,"title":"قایق و سایر وسایل نقلیه","parent":15},
+
+    {"id":61,"title":"سواری و وانت","parent":51},
+    {"id":62,"title":"کلاسیک","parent":51},
+    {"id":63,"title":"سنگین","parent":51}
+]
