@@ -16,7 +16,6 @@ import CityListJson from "./city.json"
 
 function CityModal(props) {
   const listDiv = useRef(null);
-
   const [prevSelected] = useState(((props.currentCity).sort()).join(""))
   const [states, setStates] = useState([]);
   const [allCity, setAllCity] = useState([]);
@@ -99,7 +98,7 @@ function CityModal(props) {
   const searchCityHandler = txt => {
 
     let allcities = [...allCity]
-    if (txt != "") {
+    if (txt !== "") {
       let filteredCities = allcities.filter((item) => {
         if (item.title.indexOf(txt) > -1) {
           return item
@@ -198,10 +197,10 @@ function CityModal(props) {
     })
 
     // console.log(states[parentIndex].checked);
-    if (states[parentIndex].checked == false) {
+    if (states[parentIndex].checked === false) {
       allCities.forEach((item) => {
         if (cityIDS.includes(item.id)) {
-          if (item.checked == false) {
+          if (item.checked === false) {
             newBadges.push(item)
           }
           item.checked = true;
@@ -278,7 +277,7 @@ function CityModal(props) {
 
         <ListGroup ref={listDiv}>
           {
-            (listCityShow.parentTitle != "") ? (
+            (listCityShow.parentTitle !== "") ? (
               <>
                 <ListGroup.Item onClick={backToStates}><span className='dv-backarrow'><HiOutlineArrowRight /></span>بازگشت به استانها</ListGroup.Item>
                 <ListGroup.Item onClick={() => checkAllCities(listCityShow.parentId, listCityShow.parentIndex)}>

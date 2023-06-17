@@ -1,0 +1,36 @@
+[
+    {
+        "id": 4,
+        "title": "۱۵۲ متر نیاوران",
+        "cat_id": 46,
+        "description": "",
+        "features": [
+            {
+                "title": "ودیعه",
+                "value": "152000000"
+            },
+            {
+                "title": "اجاره",
+                "value": "16000000"
+            }
+        ],
+        "imgThumb": "AZ05bgcR.webp"
+    },
+    {
+        "id": 4,
+        "title": "۱۲۰ متر ۲خواب استاندارد لوکیشن اعیان نشین",
+        "cat_id": 46,
+        "description": "",
+        "features": [
+            {
+                "title": "ودیعه",
+                "value": "600000000"
+            },
+            {
+                "title": "اجاره",
+                "value": "18000000"
+            }
+        ],
+        "imgThumb": "AZJ24A_0.webp"
+    }
+]
