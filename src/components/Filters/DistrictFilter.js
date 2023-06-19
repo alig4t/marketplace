@@ -39,14 +39,13 @@ const DistrictFilter = () => {
                         <div className='mb-3'>
 
                             <div className={`dv-filter-button ${districtModal ? "active" : ""}`} onClick={openModalDistrictHandler}>
-                                <div className='dv-clear-input'>
-
+                                <div className='d-flex flex-row'>
+                                    <div className='dv-clear-input'>
+                                    </div>
+                                    <p className='align-self-center'>
+                                        {currentDistricts.length === 0 ? "تعیین محل" : currentDistricts.length + " محله "}
+                                    </p>
                                 </div>
-                                <p className='align-self-center'>
-                                    {currentDistricts.length === 0 ? "تعیین محل" : currentDistricts.length + " محله "}
-
-
-                                </p>
                                 <span className='align-self-center'><BiChevronLeft /></span>
                             </div>
                         </div>

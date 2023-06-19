@@ -18,6 +18,10 @@ const MinMaxTypeFilter = (props) => {
     const [suggestionMinFilter, setSuggestionMinFilter] = useState(false)
     const [suggestionMaxFilter, setSuggestionMaxFilter] = useState(false)
 
+    const [minDropOpenTop,setMinDropOpenTop] = useState(false)
+    const [maxDropOpenTop,setMaxDropOpenTop] = useState(false)
+
+
     const chooseMinFilter = (event) => {
         event.preventDefault();
         console.log(event.target.getAttribute('data-val'));
@@ -92,12 +96,32 @@ const MinMaxTypeFilter = (props) => {
 
     const onClickMaxDiv = () => {
         inputMaxFilter.current.focus()
+        let divRect =inputMinFilter.current.getBoundingClientRect().bottom;
+        let bottomOffset = window.innerHeight - divRect
+        console.log(bottomOffset);
+        if(bottomOffset<200){
+            setMaxDropOpenTop(true)
+        }else{
+            setMaxDropOpenTop(false)
+        }
         setSuggestionMaxFilter(true)
     }
 
     const onClickMinDiv = () => {
         inputMinFilter.current.focus()
+        // console.log(window.innerHeight);
+        // console.log(window.pageYOffset);
+        // console.log(inputMinFilter.current.getBoundingClientRect().bottom);
+        let divRect =inputMinFilter.current.getBoundingClientRect().bottom;
+        let bottomOffset = window.innerHeight - divRect
+        console.log(bottomOffset);
+        if(bottomOffset<200){
+            setMinDropOpenTop(true)
+        }else{
+            setMinDropOpenTop(false)
+        }
         setSuggestionMinFilter(true)
+        
     }
 
     const clearMinHandler = () => {
@@ -153,7 +177,7 @@ const MinMaxTypeFilter = (props) => {
 
                                         <Fade in={suggestionMinFilter}>
                                             <div id="suggestion-min-filter">
-                                                <Dropdown.Menu className='dv-suggest-box' show={suggestionMinFilter ? true : false}>
+                                                <Dropdown.Menu className={`dv-suggest-box ${minDropOpenTop?"top":"bottom"} `}  show={suggestionMinFilter ? true : false}>
                                                     <Dropdown.Header onClick={focusInputMin}>وارد کردن مقدار دلخواه</Dropdown.Header>
 
                                                     {
@@ -188,7 +212,7 @@ const MinMaxTypeFilter = (props) => {
                                         </span>
                                         <Fade in={suggestionMaxFilter}>
                                             <div id="suggestion-max-filter">
-                                                <Dropdown.Menu className='dv-suggest-box' show={suggestionMaxFilter ? true : false}>
+                                                <Dropdown.Menu className={`dv-suggest-box ${maxDropOpenTop?"top":"bottom"}`}  show={suggestionMaxFilter ? true : false}>
                                                     <Dropdown.Header onClick={focusInputMax}>وارد کردن مقدار دلخواه</Dropdown.Header>
                                                     {
                                                         props.suggestListMax.map((item) => {
