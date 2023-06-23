@@ -38,8 +38,8 @@ const CheckboxFilter = (props) => {
                         <div className="dv-filter-button-checkbox">
 
                             {
-                                props.suggestList.map((item) => {
-                                    return <span className={checkBoxList.includes(item)?"active":""} onClick={()=>checkItemHandler(item)}>{item}</span>
+                                props.suggestList.map((item,index) => {
+                                    return <span key={index} className={checkBoxList.includes(item)?"active":""} onClick={()=>checkItemHandler(item)}>{item}</span>
                                 })
                             }
 

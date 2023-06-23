@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // import Navbar from 'react-bootstrap/Navbar';
 import {AiOutlineBars} from 'react-icons/ai'
 import {AiFillPlusCircle} from 'react-icons/ai'
@@ -7,8 +7,9 @@ import {BsFillChatFill} from 'react-icons/bs'
 import {BiHomeAlt} from 'react-icons/bi'
 
 const BottomNavbar = () => {
+    
     return (
-        <nav class="d-md-none dv-mobile-bottom-nav fixed-bottom d-flex justify-content-around">
+        <nav className="d-md-none dv-mobile-bottom-nav fixed-bottom d-flex justify-content-around">
             <div className='sub-bottom-nav'>
                 <span><BiHomeAlt/></span>
                 <p>آگهی ها</p>

@@ -1,26 +1,37 @@
-import React, { useState } from 'react';
-
-import Dropdown from 'react-bootstrap/Dropdown';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-
 import { MdLocationOn } from 'react-icons/md';
-import { BiChevronDown } from 'react-icons/bi';
 import { BiSearch } from 'react-icons/bi';
 import { BsPerson } from 'react-icons/bs'
 import { BsChatDots } from 'react-icons/bs'
 
 import CityModal from '../Modal/CityModal';
-import ActionNav from './ActionNav';
+// import { CityContext } from '../../Context/CityContext';
+import { Fade } from 'react-bootstrap';
+import { CityContext } from '../../Context/CityContext';
 
 const NavBar = () => {
+    console.log("Navbar Render");
+    const currentCity = useContext(CityContext)
+    // const {currentCity} = useContext(CityContext)
+
+    useEffect(()=>{
+        // console.log('sssssssssssssssssssssssssss');
+    },[currentCity])
+    // const [ids,setIds] = useState([])
+
+    // useEffect(()=>{
+    //     console.log("taghiiiiiiir kard");
+    //     console.log(currentCity.idsArray);
+    //     setIds(currentCity.idsArray)
+    // })
 
     const expand = "lg"
     const [cityModalShow, setCityModalShow] = useState(false)
@@ -42,7 +53,7 @@ const NavBar = () => {
                             <span>
                                 <MdLocationOn />
                             </span>
-                            تهران
+                            {currentCity.citiesList[0].title}
                         </Button>
 
                         {/* <div class="vr h-50 me-5 ml-4 my-auto"></div> */}
@@ -72,11 +83,6 @@ const NavBar = () => {
 
 
 
-                      
-
-
-
-
 
 
 
@@ -92,7 +98,9 @@ const NavBar = () => {
                             />
                             <Button onClick={handleCityModalShow} variant="" className="d-block d-sm-block d-md-none dv-city-input-btn">
 
-                                <span className='border-start ps-3'>تهران</span>
+                                <span className='border-start ps-3' style={{whiteSpace:"nowrap"}}>
+                                {currentCity.citiesList[0].title}
+                                </span>
                             </Button>
                         </div>
                     </div>
@@ -126,11 +134,9 @@ const NavBar = () => {
                 </Container>
             </Navbar>
 
+            <CityModal show={cityModalShow} close={handleCityModalClose} />
+            {/* {cityModalShow ? '' : null} */}
             
-
-
-
-            <CityModal show={cityModalShow} currentCity={[115, 114, 131, 132, 133, 134, 135]} close={handleCityModalClose} />
         </>
     );
 }

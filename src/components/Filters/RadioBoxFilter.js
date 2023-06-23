@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Badge, Collapse, ListGroup } from 'react-bootstrap';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { useOutletContext } from 'react-router-dom';
+
 
 const RadioBoxFilter = (props) => {
 
     const [radioBoxOpen, setRadioBoxOpen] = useState(false)
     const [radioBoxChecked, setRadioBoxChecked] = useState(props.itemsList[0])
+
+    let obj = useOutletContext()
 
     const checkItemHandler = (val) => {
         let checked = [...radioBoxChecked]
@@ -18,10 +22,13 @@ const RadioBoxFilter = (props) => {
     }
 
     useEffect(()=>{
-        console.log(radioBoxChecked);
+        // console.log(radioBoxChecked);
+        
+        // console.log(obj.cityName);
     })
 
     return (
+        
         <div className='dv-sidebox'>
             <ListGroup className='dv-filter-header' aria-controls="choose-radioBox">
                 <div className='d-flex flex-row flex-fill' onClick={() => setRadioBoxOpen(!radioBoxOpen)}>
@@ -42,8 +49,8 @@ const RadioBoxFilter = (props) => {
                         <div className="dv-filter-button-radioBox">
 
                             {
-                                props.itemsList.map((item) => {
-                                    return <span className={radioBoxChecked === item ? "active" : ""} onClick={() => checkItemHandler(item)}>{item}</span>
+                                props.itemsList.map((item,index) => {
+                                    return <span key={index} className={radioBoxChecked === item ? "active" : ""} onClick={() => checkItemHandler(item)}>{item}</span>
                                 })
                             }
 

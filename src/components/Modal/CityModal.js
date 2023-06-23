@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext, memo } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Badge from 'react-bootstrap/Badge';
@@ -12,31 +12,70 @@ import { RiCheckboxFill } from 'react-icons/ri'
 import { HiOutlineArrowRight } from 'react-icons/hi'
 import { BiSearch } from 'react-icons/bi';
 
-import CityListJson from "./city.json"
+import CityListJson from "./../../JsonFiles/city.json"
+import { useNavigate } from 'react-router-dom';
+import { CityContext } from '../../Context/CityContext';
+import ButtonTest from '../UI/ButtonTest';
 
 function CityModal(props) {
+
+  // console.log("citymodal Render");
+
+  // const [currentCity,setCurrentCity] = useContext(TestContext)
+
+
+  const currentCity = useContext(CityContext)
+
+
   const listDiv = useRef(null);
-  const [prevSelected] = useState(((props.currentCity).sort()).join(""))
+  // const [prevSelected,setPrevSelected] = useState("")
   const [states, setStates] = useState([]);
+
   const [allCity, setAllCity] = useState([]);
   const [selectedCity, setSelectedCity] = useState([])
+ 
+  // const [allAndSelectedCity,setAllAndSelectedCity] = useState({
+  //   allCity:[],
+  //   selectedCity:[]
+  // })
+  
+
   const [listCityShow, setListCityShow] = useState({
     parentTitle: '',
     counties: [{ "id": 0, "title": "", "parent": 0 }]
   })
   const [clickableBtn, setClickableBtn] = useState(false);
 
+  const navigate = useNavigate()
+
+
+
   
-  useEffect(() => {
-    // console.log(states);
-    // console.log(allCity);
-    // console.log(selectedCity);
-    // console.log(props.currentCity);
-    // console.log(prevSelected);
-    // console.log(listCityShow);
+  useEffect(()=>{
+    console.log("states changed.....--.....");
+  },[states])
+
+  
+  useEffect(()=>{
+    console.log("allCity changed.....--.....");
+  },[allCity])
+  
+  useEffect(()=>{
+    console.log("selectedCity changed.....--.....");
+  },[selectedCity])
+
+  useEffect(()=>{
+    console.log("listCityShow changed.....--.....");
+  },[listCityShow])
+
+  useEffect(()=>{
+    console.log(allCity);
+    console.log(selectedCity);
   })
 
- 
+
+  /*********************  When  Rerendered, the following useEffect is executed   *********************/
+  /*********************  compare selected city with prevSelected  *********************/
 
   useEffect(() => {
     let ids = [];
@@ -44,23 +83,20 @@ function CityModal(props) {
       ids.push(city.id);
     })
     let newSelectedStr = (ids.sort()).join("");
-
-    if (selectedCity.length === 0 || prevSelected == newSelectedStr) {
+    if (selectedCity.length === 0 || currentCity.idsStr === newSelectedStr) {
       setClickableBtn(false)
     } else {
       setClickableBtn(true)
     }
-
   }, [selectedCity])
 
-  const backToStates = () => {
-    setListCityShow({
-      parentTitle: "",
-      counties: [...states],
-    })
-  }
 
+
+  
+  
+  /********************* It is executed when currentCity changes  *********************/
   const showInitialStates = () => {
+
     let initialstate = [];
     let allCounties = [];
     let selectCityBadgeArray = [];
@@ -69,7 +105,7 @@ function CityModal(props) {
       if (state.parent === 0) {
         initialstate.push({ ...state, checked: false })
       } else {
-        let checekdStatus = props.currentCity.includes(state.id) ? true : false
+        let checekdStatus = currentCity.idsArray.includes(state.id) ? true : false
         if (checekdStatus) {
           selectCityBadgeArray.push({ ...state, checked: checekdStatus })
         }
@@ -80,21 +116,18 @@ function CityModal(props) {
       parentTitle: "",
       counties: [...initialstate],
     });
-    setAllCity(allCounties)
     setStates(initialstate)
+    setAllCity(allCounties)
     setSelectedCity(selectCityBadgeArray)
-
   }
 
-  const selectedCityListBadge = () => {
-
-  }
 
   useEffect(() => {
     showInitialStates()
-    selectedCityListBadge()
-  }, [])
+  }, [currentCity])
 
+
+  
   const searchCityHandler = txt => {
 
     let allcities = [...allCity]
@@ -118,18 +151,26 @@ function CityModal(props) {
 
   }
 
+
+  /*********************  Delete Badge City And UnCheck It  *********************/
+  
   const deleteCityHandler = (id) => {
     let cities = [...selectedCity];
     let allcities = [...allCity]
     let index = cities.findIndex((item) => item.id === id);
     cities.splice(index, 1);
-    setSelectedCity(cities);
 
     let cityIndex = allcities.findIndex(item => item.id === id)
     allcities[cityIndex].checked = false
+
+    setSelectedCity(cities);
     setAllCity(allcities);
   }
 
+
+  
+  /*********************  Showing the cities of each province  *********************/
+  
   const showCountiesHandler = (parentId, parentTitle) => {
     let counties = allCity.filter((state) => {
       return state.parent === parentId
@@ -142,20 +183,25 @@ function CityModal(props) {
       counties: [...counties],
       checked: false
     })
-
     listDiv.current.scrollIntoView({
       block: 'start',
       behavior: 'smooth'
     });
-    // listDiv.current.offsetTop = 0;
-
   }
 
+  /********************* Default display - list of provinces  *********************/  
+  const backToStates = () => {
+    setListCityShow({
+      parentTitle: "",
+      counties: [...states],
+    })
+  }
 
-
-  const checkCityHandler = (id, title) => {
+  /********************* Mark the city And Add to badges *********************/  
+  const checkCityHandler = (id, title, slug) => {
     // console.log(parentIndex);
     let checkedCities = [...selectedCity];
+    console.log(checkedCities);
     let allcities = [...allCity];
     let copyStates = [...states];
     let index = allcities.findIndex((item) => item.id === id)
@@ -174,7 +220,7 @@ function CityModal(props) {
     })
 
     if (!duplicated) {
-      checkedCities.push({ id, title })
+      checkedCities.push({ id, title, slug })
     } else {
       let indexBadge = checkedCities.findIndex(item => item.id === id);
       checkedCities.splice(indexBadge, 1)
@@ -184,13 +230,15 @@ function CityModal(props) {
     setAllCity(allcities)
   }
 
+  
+  /********************* Marking all the cities of a province *********************/  
+
   const checkAllCities = (parentId, parentIndex) => {
     let allCities = [...allCity]
     let cityIDS = [];
     let copyStates = [...states]
     let selCities = [...selectedCity];
     let newBadges = [];
-
 
     listCityShow.counties.forEach((city) => {
       cityIDS.push(city.id)
@@ -230,14 +278,14 @@ function CityModal(props) {
     // console.log([...selCities, ...newBadges]);
   }
 
-  useEffect(() => {
-    // console.log(selectedCity.length);
-    // if (selectedCity.length > 0) {
-    //   setClickableBtn(true)
-    // } else {
-    //   setClickableBtn(false)
-    // }
-  })
+
+  /********************* Navigate to new City Route *********************/  
+  const changeCityHandler = () => {
+    props.close()
+    console.log(selectedCity);
+    navigate(`/s/${selectedCity[0].slug}`)
+  }
+
 
   return (
     <Modal
@@ -293,7 +341,7 @@ function CityModal(props) {
           {
             listCityShow.counties.map((item) => {
               return <ListGroup.Item key={item.id}
-                onClick={item.parent === 0 ? () => showCountiesHandler(item.id, item.title) : () => checkCityHandler(item.id, item.title)}
+                onClick={item.parent === 0 ? () => showCountiesHandler(item.id, item.title) : () => checkCityHandler(item.id, item.title, item.slug)}
               >
                 {item.title}
                 {
@@ -311,12 +359,14 @@ function CityModal(props) {
 
       </Modal.Body>
       <Modal.Footer>
+        <ButtonTest />
         <Button variant='light' className='dv-btn-closemodal' onClick={props.close}>انصراف</Button>
-        <Button variant={clickableBtn ? "danger" : "light"} className='dv-btn-closemodal not-allowed' onClick={props.close} disabled={clickableBtn ? false : true}>تایید</Button>
+        <Button variant={clickableBtn ? "danger" : "light"} className='dv-btn-closemodal not-allowed' onClick={changeCityHandler} disabled={clickableBtn ? false : true}>تایید</Button>
 
       </Modal.Footer>
     </Modal>
   );
 }
 
+// export default memo(CityModal);
 export default CityModal;

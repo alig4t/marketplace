@@ -40,6 +40,7 @@ const StatusFilter = () => {
                                         type="switch"
                                         id="custom-switch"
                                         checked={switchImage ? true : false}
+                                        onChange={(e)=>({e})}
                                     />
                                 </Form>
                             </span>
@@ -52,6 +53,7 @@ const StatusFilter = () => {
                                         type="switch"
                                         id="custom-switch"
                                         checked={switchInstant ? true : false}
+                                        onChange={(e)=>({e})}
                                     />
                                 </Form>
                             </span>

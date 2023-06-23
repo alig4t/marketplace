@@ -120,8 +120,8 @@ const SelectTypeFilter = (props) => {
 
                                     
                                     <Dropdown.Menu>
-                                        {props.suggestList.map((item) => {
-                                            return <Dropdown.Item data-val={item} href="#/action-1" onClick={() => chooseSelectFilter(item)}>{item}</Dropdown.Item>
+                                        {props.suggestList.map((item,index) => {
+                                            return <Dropdown.Item key={index} data-val={item} href="#/action-1" onClick={() => chooseSelectFilter(item)}>{item}</Dropdown.Item>
                                         })}
 
                                     </Dropdown.Menu>

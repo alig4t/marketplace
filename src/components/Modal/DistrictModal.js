@@ -25,9 +25,9 @@ const DistrictModal = (props) => {
   const city = 113;
 
   useEffect(()=>{
-    console.log(AllDistricts);
-    console.log(selectedDistricts);
-    console.log(districtsShow);
+    // console.log(AllDistricts);
+    // console.log(selectedDistricts);
+    // console.log(districtsShow);
   })
 
 
@@ -49,7 +49,7 @@ const DistrictModal = (props) => {
       selectMahalBadgeArray.push({id:mahaleList[index].id,title:mahaleList[index].title})
     })
 
-    console.log(mahaleList);
+    // console.log(mahaleList);
     setDistrictsShow(mahaleList)
     setAllDistricts(mahaleList)
     setSelectedDistricts(selectMahalBadgeArray)

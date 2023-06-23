@@ -181,8 +181,8 @@ const MinMaxTypeFilter = (props) => {
                                                     <Dropdown.Header onClick={focusInputMin}>وارد کردن مقدار دلخواه</Dropdown.Header>
 
                                                     {
-                                                        props.suggestListMin.map((item) => {
-                                                            return <Dropdown.Item data-val={item} onClick={(e) => chooseMinFilter(e)}>{item.toLocaleString()} {props.unit}</Dropdown.Item>
+                                                        props.suggestListMin.map((item,index) => {
+                                                            return <Dropdown.Item key={index} data-val={item} onClick={(e) => chooseMinFilter(e)}>{item.toLocaleString()} {props.unit}</Dropdown.Item>
                                                         })
                                                     }
                                                 </Dropdown.Menu>
@@ -215,8 +215,8 @@ const MinMaxTypeFilter = (props) => {
                                                 <Dropdown.Menu className={`dv-suggest-box ${maxDropOpenTop?"top":"bottom"}`}  show={suggestionMaxFilter ? true : false}>
                                                     <Dropdown.Header onClick={focusInputMax}>وارد کردن مقدار دلخواه</Dropdown.Header>
                                                     {
-                                                        props.suggestListMax.map((item) => {
-                                                            return <Dropdown.Item data-val={item} onClick={(e) => chooseMaxFilter(e)}>{item.toLocaleString()} {props.unit}</Dropdown.Item>
+                                                        props.suggestListMax.map((item,index) => {
+                                                            return <Dropdown.Item key={index} data-val={item} onClick={(e) => chooseMaxFilter(e)}>{item.toLocaleString()} {props.unit}</Dropdown.Item>
                                                         })
                                                     }
                                                 </Dropdown.Menu>

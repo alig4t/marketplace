@@ -9,7 +9,7 @@ const Cards = () => {
             {
                 Ads.map((item) => {
                     return (
-                        <div className='dv-card'>
+                        <div className='dv-card' key={item.id}>
                             <div className='dv-card-border'>
                                 <div className='dv-post'>
                                     <div className='dvpost-info'>
@@ -20,9 +20,9 @@ const Cards = () => {
                                             {/* <p>در حد نو</p> */}
                                             {/* <p>۳۵٬۰۰۰٬۰۰۰ تومان</p>
                             <p>۳۵٬۰۰۰٬۰۰۰ تومان</p> */}
-                                            {item.features.map((feature) => {
+                                            {item.features.map((feature,index) => {
                                                 return (
-                                                    <p>
+                                                    <p key={index}>
                                                         {feature.title + " : " + feature.value + " تومان "}
                                                     </p>
                                                 )
