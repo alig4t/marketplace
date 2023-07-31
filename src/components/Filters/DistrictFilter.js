@@ -22,8 +22,8 @@ const DistrictFilter = () => {
     return (
         <>
             <div className='dv-sidebox'>
-                <ListGroup className='dv-filter-header' aria-controls="choose-district-box">
-                    <div className='d-flex flex-row flex-fill' onClick={() => setMahalOpen(!mahalOpen)}>
+                <ListGroup className='dv-filter-header' aria-controls="choose-district-box" onClick={() => setMahalOpen(!mahalOpen)}>
+                    <div className='d-flex flex-row flex-fill' >
                         <span className='pe-2'>
                             {mahalOpen ? <FiChevronUp /> : <FiChevronDown />}
                         </span>

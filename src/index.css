@@ -441,7 +441,8 @@ fieldset:disabled .btn {
 
 .dv-sidebox {
   border-bottom: 1px solid #ddd;
-  padding: 5px 0;
+  /* padding: 5px 0; */
+  /* padding-bottom: 5px; */
 }
 
 .dv-sidebox h6 {
@@ -452,7 +453,7 @@ fieldset:disabled .btn {
   line-height: 2;
 }
 
-.dv-catlist>span {
+.dv-catlist span {
   margin-left: 8px;
   font-size: 12px;
 }
@@ -474,11 +475,14 @@ fieldset:disabled .btn {
 
 .dv-catlist>span>img {}
 
-.dv-catlist {
+.dv-catlist,.dv-catlist a {
   font-size: 14px;
   color: #959595;
   font-weight: 400;
   transition: all ease 0.25s;
+}
+.dv-catlist a{
+  display: block;
 }
 
 @keyframes fadein {
@@ -516,17 +520,33 @@ fieldset:disabled .btn {
 }
 
 .cat-depth3 {
-  border-right: 1px solid #eee !important;
-  font-size: 11px;
+  /* border-right: 1px solid #eee !important; */
+  font-size: 12px;
+  padding: 0;
 }
 
 .cat-depth3:focus {
+  border-color: #eb3333 !important;
+}
+.cat-depth3 a{
+  font-size: 11px;
+  border-right: 1px solid #eee !important;
+  padding-right: 10px;
+  line-height: 28px;
+  display: block;
+}
+.cat-depth3 a.active {
+  color: #eb3333 !important;
   border-color: #eb3333 !important;
 }
 
 .dv-cat-parent {
   color: #333 !important;
 }
+/* .dv-cat-parent img{
+  color: #a62626 !important;
+  font-weight: bold;
+} */
 
 .dv-nav-toggle {
   line-height: 1.4;
@@ -707,6 +727,32 @@ p {
   cursor: pointer;
 }
 
+.dv-action-badge.active {
+  border-color: #c53b3b ;
+  color: #c53b3b;
+  background-color: #ffeeee;
+  padding-left: 5px;
+}
+
+.dv-deleteFilter {
+  /* vertical-align: -1; */
+  cursor: pointer;
+  border-radius: 100%;
+  transition: all ease 0.2s;
+  margin-right: 3px;
+}
+.dv-deleteFilter a{
+  color: #c53b3b;
+
+}
+.dv-deleteFilter:hover {
+  background-color: rgba(249, 194, 194, 0.5);
+}
+
+.dv-deleteFilter svg {
+  font-size: 22px;
+}
+
 
 .dv-action-nav::-webkit-scrollbar,
 .dv-action-nav::-webkit-scrollbar-thumb {
@@ -750,7 +796,7 @@ p {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 8px 0;
+  padding: 13px 0;
   cursor: pointer;
   transition: all ease 0.2s;
 
@@ -822,6 +868,14 @@ p {
   margin-bottom: 5px;
   transition: all ease .25s;
 }
+.dv-filter-dropdown.search{
+    border: none !important;
+}
+.dv-filter-dropdown.search a{
+  color: #555151;
+  font-size: 14px;
+}
+
 
 .dv-filter-dropdown.show {
   /* border-color: rgba(0,0,0,.18) !important; */

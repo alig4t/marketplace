@@ -18,20 +18,15 @@ import { Fade } from 'react-bootstrap';
 import { CityContext } from '../../Context/CityContext';
 
 const NavBar = () => {
-    console.log("Navbar Render");
+    
+    // console.log("Navbar Render");
     const currentCity = useContext(CityContext)
-    // const {currentCity} = useContext(CityContext)
+    
+    // console.log(currentCity);
 
     useEffect(()=>{
-        // console.log('sssssssssssssssssssssssssss');
-    },[currentCity])
-    // const [ids,setIds] = useState([])
-
-    // useEffect(()=>{
-    //     console.log("taghiiiiiiir kard");
-    //     console.log(currentCity.idsArray);
-    //     setIds(currentCity.idsArray)
-    // })
+        console.log("Navbar Render");
+    })
 
     const expand = "lg"
     const [cityModalShow, setCityModalShow] = useState(false)
@@ -53,7 +48,8 @@ const NavBar = () => {
                             <span>
                                 <MdLocationOn />
                             </span>
-                            {currentCity.citiesList[0].title}
+                            {/* {currentCity.citiesList[0].title} */}
+                            {currentCity.citiesList.length > 1 ? currentCity.citiesList.length + " شهر " : currentCity.citiesList[0].title}
                         </Button>
 
                         {/* <div class="vr h-50 me-5 ml-4 my-auto"></div> */}
@@ -98,8 +94,9 @@ const NavBar = () => {
                             />
                             <Button onClick={handleCityModalShow} variant="" className="d-block d-sm-block d-md-none dv-city-input-btn">
 
-                                <span className='border-start ps-3' style={{whiteSpace:"nowrap"}}>
-                                {currentCity.citiesList[0].title}
+                                <span className='border-start ps-3' style={{ whiteSpace: "nowrap" }}>
+                                    {currentCity.citiesList.length > 1 ? currentCity.citiesList.length + " شهر " : currentCity.citiesList[0].title}
+
                                 </span>
                             </Button>
                         </div>
@@ -136,7 +133,7 @@ const NavBar = () => {
 
             <CityModal show={cityModalShow} close={handleCityModalClose} />
             {/* {cityModalShow ? '' : null} */}
-            
+
         </>
     );
 }

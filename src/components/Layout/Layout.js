@@ -7,10 +7,10 @@ import { CityContext } from '../../Context/CityContext';
 const Layout = (props) => {
 
 
-    console.log("layout Render");
     
     const currentCity = useContext(CityContext)
     useEffect(()=>{
+        console.log("layout Render");
         // console.log(currentCity);
         // console.log('ssssssssssss');
     })

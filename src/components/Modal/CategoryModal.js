@@ -9,7 +9,7 @@ const CategoryModal = (props) => {
                 <Modal.Title> انتخاب دسته بندی</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <Categories devicePhone={true}/>
+            <Categories devicePhone={true} closeModal={props.closeModal} />
             </Modal.Body>
             <Modal.Footer>
         <Button variant='light' className='dv-btn-closemodal' onClick={props.closeModal}>انصراف</Button>

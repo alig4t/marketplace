@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Badge, Container, Row } from "react-bootstrap";
 import CategoryModal from "../Modal/CategoryModal";
 import DistrictModal from "../Modal/DistrictModal";
 import FilterModal from "../Modal/FilterModal";
+import { CategoryContext } from "../../Context/CategoryContext";
+import { IoIosClose } from 'react-icons/io'
+import { Link } from "react-router-dom";
+import { CityContext } from "../../Context/CityContext";
 
 
 const ActionNav = () => {
+
+    const currentCat = useContext(CategoryContext)
+    const currentCity = useContext(CityContext)
+    console.log(currentCat);
+    console.log(currentCity);
 
     const [categoryModal, setCategoryModal] = useState(false)
     const categoryModalHandler = () => {
@@ -28,9 +37,26 @@ const ActionNav = () => {
                         <Badge onClick={filterModalHandler} className="dv-action-badge" bg="">
                             فیلترها
                         </Badge>
+
+
                         <Badge onClick={categoryModalHandler} className="dv-action-badge" bg="">
                             دسته ها
                         </Badge>
+
+                        {currentCat && <Badge className="dv-action-badge active" bg="">
+
+                            <span onClick={categoryModalHandler}>
+                                {currentCat.title}
+                            </span>
+
+                            <span className="dv-deleteFilter">
+                                <Link to={currentCity.citiesList.length > 1 ? `/s/iran?cities=${currentCity.idsArray.join('-')}` : `/s/${currentCity.citiesList[0].slug}`}>
+                                    <IoIosClose />
+                                </Link>
+                            </span>
+
+                        </Badge>}
+
                         <Badge onClick={districtModalHandler} className="dv-action-badge" bg="">
                             محله ها
                         </Badge>
@@ -59,9 +85,9 @@ const ActionNav = () => {
                 </Row>
             </Container>
 
-            {<FilterModal showModal={filterModal} devicePhone={true} closeModal={()=>setFilterModal(false)} />}
-            {<CategoryModal showModal={categoryModal} devicePhone={true} closeModal={()=>setCategoryModal(false)} />}
-            {<DistrictModal showModal={districtModal} devicePhone={true} currentDistricts={[16,12]} closeModal={()=>setDistrictModal(false)} />}
+            {<FilterModal showModal={filterModal} devicePhone={true} closeModal={() => setFilterModal(false)} />}
+            {<CategoryModal showModal={categoryModal} devicePhone={true} closeModal={() => setCategoryModal(false)} />}
+            {<DistrictModal showModal={districtModal} devicePhone={true} currentDistricts={[16, 12]} closeModal={() => setDistrictModal(false)} />}
 
         </>
     );

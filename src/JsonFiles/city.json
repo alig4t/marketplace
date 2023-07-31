@@ -24,5 +24,21 @@
     { "id": 136, "title": "فلاورجان" ,"parent":3,"slug":"felavarjan"},
     { "id": 137, "title": "فولادشهر" ,"parent":3,"slug":"fooladshahr"},
     { "id": 138, "title": "گلپایگان" ,"parent":3,"slug":"golpayegan"},
-    { "id": 139, "title": "مبارکه" ,"parent":3,"slug":"mobarake"}
+    { "id": 139, "title": "مبارکه" ,"parent":3,"slug":"mobarake"},
+
+
+    { "id": 151, "title": "ارومیه" ,"parent":1,"slug":"urmia"},
+    { "id": 152, "title": "مهاباد" ,"parent":1,"slug":"mahabad"},
+    
+
+    { "id": 171, "title": "تبریز" ,"parent":2,"slug":"tabriz"},
+    { "id": 172, "title": "مرند" ,"parent":2,"slug":"marand"},
+    
+
+    { "id": 191, "title": "اردبیل" ,"parent":27,"slug":"ardebil"},
+    { "id": 192, "title": "سرعین" ,"parent":27,"slug":"sarein"}
+    
+
+
+
 ]
