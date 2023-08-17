@@ -1,66 +1,121 @@
-import React from 'react';
-import SingleCard from './SingleCard';
-import { FaRegComment } from 'react-icons/fa'
+import React, { useEffect, useState } from 'react';
 
 import Ads from "./ads.json"
-const Cards = () => {
-    return (
-        <div className='d-flex flex-wrap'>
-            {
-                Ads.map((item) => {
-                    return (
-                        <div className='dv-card' key={item.id}>
-                            <div className='dv-card-border'>
-                                <div className='dv-post'>
-                                    <div className='dvpost-info'>
-                                        <div className='dv-info-title flex-fill'>
-                                            <h2>{item.title}</h2>
-                                        </div>
-                                        <div className='dv-info-lists'>
-                                            {/* <p>در حد نو</p> */}
-                                            {/* <p>۳۵٬۰۰۰٬۰۰۰ تومان</p>
-                            <p>۳۵٬۰۰۰٬۰۰۰ تومان</p> */}
-                                            {item.features.map((feature,index) => {
-                                                return (
-                                                    <p key={index}>
-                                                        {feature.title + " : " + feature.value + " تومان "}
-                                                    </p>
-                                                )
-                                            })}
-                                        </div>
-                                        <div className='dv-info-bottom'>
-                                            <span className='text-muted'>نیم ساعت پیش در تهران، جنت آباد جنوبی</span>
-                                        </div>
+import "./Card2.css"
 
-                                    </div>
-                                    <div className='dvpost-feature align-self-end pb-1 pe-1'>
-                                        <FaRegComment />
-                                    </div>
-                                    <div className='dvpost-thumb'>
-                                        <img src={process.env.PUBLIC_URL + "/assets/images/2023/05/13/" + item.imgThumb} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                })
+import CardPlaceHolder from '../UI/CardPlaceHolder/CardPlaceHolder';
+import { useLocation, useParams } from 'react-router-dom';
+import ErrorCard from '../UI/ErrorCard/ErrorCard';
+import SwitchShow from './SwitchShow/SwitchShow';
+import CardShow1 from '../UI/CardShow1/CardShow1';
+import CardShow2 from '../UI/CardShow2/CardShow2';
+
+const Cards = () => {
+
+    const [isLoading, setIsLoading] = useState(true);
+
+
+    const [cardsList, setCardsList] = useState([])
+    const [errorType, setErrorType] = useState(-1)
+
+    const [defaultShowTypeUi, setDefaultShowTypeUi] = useState(true)
+
+    let { city, cat } = useParams()
+    const location = useLocation()
+
+    // console.log(location);
+    // console.log(city);
+
+    const urls = [
+        "https://mocki.io/v1/089f7984-7c76-4d86-afc5-54c5feb1b8db",
+        "https://mocki.io/v1/089f7984-7c76-4d86-afc5-54c5feb1b8db",
+        "https://mocki.io/v1/089f7984-7c76-4d86-afc5-54c5feb1b8db",
+        "https://mocki.io/v1/089f7984-7c76-4d86-afc5-54c5feb1b8db",
+        "https://mocki.io/v1/089fb",
+        "https://mocki.io/v1/089f7984-7c76-4d86-afc5-54c5feb1b8db",
+        "https://mocki.io/v1/089f7984-7c76-4d86-afc5-54c5feb1b8db",
+        "https://mocki.io/v1/089f7984-7c76-4d86-afc5-54c5feb1b8db",
+    ]
+
+    // console.log(Math.floor(Math.random() * (3 - 0 + 1) + 0));
+    // const index = Math.floor(Math.random() * (3 - 0 + 1) + 0)
+    // fetch("https://mocki.io/v1/089f7984-7c76-4d86-afc5-54c5feb1b8db")
+    // https://mocki.io/v1/c2f5a6e7-2beb-46b1-9384-978691874bcc
+
+    const fetchData = () => {
+        let index = Math.floor(Math.random() * ((urls.length - 1) - 0 + 1) + 0)
+        fetch(urls[index])
+            .then((resp) => {
+                return resp.json();
+            })
+            .then((respData) => {
+                setTimeout(() => {
+                    setCardsList(respData);
+                    setIsLoading(false)
+                    setErrorType(-1)
+                }, 1000)
+            })
+            .catch(() => {
+                setErrorType(500)
+                setIsLoading(false)
+                setCardsList([])
+            })
+    }
+
+
+
+    useEffect(() => {
+        // setErrorType(-1)
+        setIsLoading(true)
+        fetchData()
+
+    }, [city, cat, location.search])
+
+
+
+    const tryAgainLoader = () => {
+        let index = Math.floor(Math.random() * ((urls.length - 1) - 0 + 1) + 0)
+
+        // setErrorType(-1)
+        // setIsLoading(true)
+        fetch(urls[index])
+            .then((resp) => {
+                return resp.json();
+            })
+            .then((respData) => {
+
+                setCardsList(respData);
+                setErrorType(-1)
+
+            })
+            .catch(() => {
+                setErrorType(500)
+            })
+    }
+
+
+
+
+
+    return (
+        // <div className='d-flex flex-row justify-content-around'>
+
+        <div className='row'>
+
+            {isLoading ? <CardPlaceHolder /> : <>
+                <SwitchShow changeDefaultShow={setDefaultShowTypeUi} defaultShow={defaultShowTypeUi} />
+                {
+                    defaultShowTypeUi ? <CardShow2 cardsList={cardsList} /> : <CardShow1 cardsList={cardsList} />
+                }
+            </>
             }
-            {/* <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard /> */}
+            {
+                errorType > 0 && isLoading === false ? (
+                    <ErrorCard reload={tryAgainLoader} />
+                ) : ""
+            }
+
+
         </div>
     );
 }

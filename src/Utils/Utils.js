@@ -1,40 +1,38 @@
 
-export const URLMaker = (city, cat) => {
-    let path = '';
-    let catPath = cat == '' ? "" : "/"+cat;
+
+export const URLMaker = (city, cat, filters = {}) => {
+
     let hashCities = '';
     let multiCity = city.length > 1 ? true : false
-    // console.log(city);
+    let cityName = city.length > 1 ? "iran" : city[0].slug
+
     if (multiCity) {
         city.forEach((item, key) => {
             hashCities += item.id
             if (key < city.length - 1) {
                 hashCities += ','
             }
-        })
-        hashCities = encodeURIComponent(hashCities)
-    }else{
+        })        
+        // hashCities = encodeURIComponent(hashCities)
+        filters.cities = hashCities
+    } else {
         hashCities = city[0].slug
     }
-    // console.log(hashCities);
 
-    if(multiCity){
-        return `/s/iran${catPath}?cities=${hashCities}`
-    }else{
-        return `/s/${hashCities}/${cat}`
-    }
+    let filtersString = '?' + new URLSearchParams(filters);
+    let urlArray = ['/s', cityName, cat]
+    urlArray = urlArray.filter((seg) => seg !== '')
+    urlArray = urlArray.join('/')
+
+    // console.log(urlArray + filtersString);
+
+    return urlArray + filtersString
+
 }
+
 
 export const URLMakerWithHash = (hash, cat) => {
     console.log(cat);
-    let catPath = cat === '' || cat == undefined ? "" : "/"+cat;
-    // let multiCity = text.search("%2C") > 1 ? true : false;
-
+    let catPath = cat === '' || cat == undefined ? "" : "/" + cat;
     return `/s/iran${catPath}?cities=${hash}`
-
-    // if(multiCity){
-    //     return `/s/iran${catPath}?cities=${hashCities}`
-    // }else{
-    //     return `/s/${hashCities}/${cat}`
-    // }
 }

@@ -13,10 +13,26 @@ import { CategoryContext } from '../../Context/CategoryContext';
 import { URLMaker, URLMakerWithHash } from '../../Utils/Utils';
 import WrongUrlMsg from '../../components/UI/WrongUrlMsg';
 
+
+import NotFound from '../../components/UI/404/NotFound';
+
+
 // import { CityContext, CityProvider } from '../../Context/CityContext';
 
 
 const Main = (props) => {
+
+    let uurl = ['teh', '', '?sssssss', '', 'ww']
+
+    console.log(uurl.filter((item) => item !== ''));
+
+
+
+
+
+
+
+
 
     const navigate = useNavigate()
 
@@ -25,11 +41,10 @@ const Main = (props) => {
 
     const location = useLocation()
 
-    console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     console.log(location);
 
     const [queryStirng] = useSearchParams();
-    console.log(queryStirng.get('cities'));
+    // console.log(queryStirng.get('cities'));
 
     // console.log('Main Redner');
     let { city, cat } = useParams()
@@ -42,6 +57,21 @@ const Main = (props) => {
 
     const [currentCat, setCurrentCat] = useState({ id: -1 });
 
+    const [notFound, setNotFound] = useState(false)
+
+    // http://localhost:3000/s/iran/real-estate?cities=113%2C172&meter=-120&price=55-66
+
+    // useEffect(() => {
+    //     let quertObject = {}
+    //     console.log("Query String Has Been Changed..");
+    //     let urlQueryString = location.search.slice(1);
+    //     let urlQueryArray = urlQueryString.split("&");
+    //     urlQueryArray.forEach((item) => {
+    //         let subQuery = item.split("=");
+    //         quertObject = { ...quertObject, [subQuery[0]]: subQuery[1] }
+    //     })
+    //     console.log(quertObject);
+    // }, [queryStirng])
 
     // useEffect(()=>{
     //     console.log(currentCity);
@@ -57,14 +87,14 @@ const Main = (props) => {
 
             if (queryStirng.has('cities')) {
                 let citiesIdsString = queryStirng.get('cities');
-                console.log(citiesIdsString);
+                // console.log(citiesIdsString);
 
                 // const regex = /(^\d+(\%2C\d+)*$)/gm;
 
                 if (regexStr.test(citiesIdsString)) {
-                    console.log("رشته معتبر است.");
+                    // console.log("رشته معتبر است.");
                 } else {
-                    console.log("رشته نااامعتبر است.");
+                    // console.log("رشته نااامعتبر است.");
 
                 }
 
@@ -72,9 +102,9 @@ const Main = (props) => {
                 let citiesIdsArray = citiesIdsString.split(",");
                 citiesIdsArray.forEach(id => {
                     let cityObj = CityList.find((item) => item.id === Number(id))
-                    console.log(cityObj);
+                    // console.log(cityObj);
                     if (cityObj === undefined) {
-                        console.log("Wrong");
+                        // console.log("Wrong");
                         wrongAddress = true;
                     } else {
                         cityListArray.push(cityObj)
@@ -98,12 +128,12 @@ const Main = (props) => {
         if (wrongAddress) {
             let prevCityHash = localStorage.getItem("lastCities");
             let prevCat = localStorage.getItem("catSlug");
-            console.log(currentCat);
+            // console.log(currentCat);
             if (prevCityHash !== null && prevCityHash !== "" && regexHash.test(prevCityHash)) {
-                console.log("هکس معتبر است");
-                navigate(URLMakerWithHash(prevCityHash, prevCat),{state:{wrong:true}})
+                // console.log("هکس معتبر است");
+                navigate(URLMakerWithHash(prevCityHash, prevCat), { state: { wrong: true } })
             } else {
-                navigate('/',{state:{wrong:true}})
+                navigate('/', { state: { wrong: true } })
             }
         } else {
             let idsStr = (ids.sort()).join("");
@@ -112,7 +142,7 @@ const Main = (props) => {
                 idsArray: ids,
                 citiesList: cityListArray
             })
-            console.log(ids.join("%2C"));
+            // console.log(ids.join("%2C"));
             localStorage.setItem("lastCities", ids.join("%2C"))
         }
 
@@ -122,15 +152,24 @@ const Main = (props) => {
 
     useEffect(() => {
         // console.log(cat);
-        console.log(cat);
-        let catObj = CatList.find((item) => item.slug === cat)
-        setCurrentCat(catObj)
-
-        if (cat !== undefined) {
-            localStorage.setItem("catSlug", catObj.slug)
-        } else {
-            localStorage.removeItem("catSlug")
+        // console.log(cat);
+        if(cat !== undefined){
+            let catObj = CatList.find((item) => item.slug === cat)
+            console.log(catObj);
+            setCurrentCat(catObj)
+            if (catObj !== undefined) {
+                console.log("11111111111111111111111111111");
+                localStorage.setItem("catSlug", catObj.slug)
+                setNotFound(false)
+    
+            } else {
+                console.log("2222222222222222222222222");
+                localStorage.removeItem("catSlug")
+                setNotFound(true)
+            }
         }
+
+       
         // console.log(catObj);
         // console.log(catObj);
         // console.log("<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>");
@@ -147,17 +186,22 @@ const Main = (props) => {
             <CategoryContext.Provider value={currentCat}>
                 <Layout>
                     <Container fluid>
-                        <Row>
-                            <div className='d-none d-md-block col-md-4 col-lg-3'>
-                                <Sidebar />
-                            </div>
-                            <div className='col-12 col-md-8 col-lg-9'>
-                                <Cards />
-                            </div>
-                        </Row>
-                        <Row>
-                            {location.state !== null ? location.state.wrong ? <WrongUrlMsg currentCity={currentCity} />:"":""}}
-                        </Row>
+                        {notFound === false ? <>
+                            <Row>
+                                <div className='d-none d-md-block col-md-4 col-lg-3'>
+                                    <Sidebar />
+                                </div>
+                                <div className='col-12 col-md-8 col-lg-9'>
+                                    {/* <Cards /> */}
+                                    <Cards />
+                                </div>
+                            </Row>
+                            <Row>
+                                {location.state !== null ? location.state.wrong ? <WrongUrlMsg currentCity={currentCity} /> : "" : ""}
+                            </Row>
+                        </>
+                            : <NotFound />}
+
                     </Container>
                 </Layout>
             </CategoryContext.Provider>

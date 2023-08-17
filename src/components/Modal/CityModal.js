@@ -43,7 +43,7 @@ function CityModal(props) {
   // }, [currentCity])
 
   useEffect(()=>{
-    console.log("CityModal Render..");
+    // console.log("CityModal Render..");
   })
 
 

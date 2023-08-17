@@ -13,8 +13,8 @@ const ActionNav = () => {
 
     const currentCat = useContext(CategoryContext)
     const currentCity = useContext(CityContext)
-    console.log(currentCat);
-    console.log(currentCity);
+    // console.log(currentCat);
+    // console.log(currentCity);
 
     const [categoryModal, setCategoryModal] = useState(false)
     const categoryModalHandler = () => {

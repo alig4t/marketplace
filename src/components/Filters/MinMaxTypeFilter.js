@@ -1,12 +1,22 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Collapse, ListGroup, Form, Dropdown, Fade } from 'react-bootstrap';
 import { FiChevronDown } from "react-icons/fi"
 import { FiChevronUp } from "react-icons/fi"
 import { RxDotsVertical } from "react-icons/rx"
 import { TiDelete } from "react-icons/ti"
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { CityContext } from '../../Context/CityContext';
+import { CategoryContext } from '../../Context/CategoryContext';
+
 
 
 const MinMaxTypeFilter = (props) => {
+
+    const naviate = useNavigate()
+    const currentCity = useContext(CityContext)
+    const currentCat = useContext(CategoryContext)
+    let { city, cat } = useParams()
+
 
     const [filterOpen, setFilterOpen] = useState(false);
     const [minFilter, setMinFilter] = useState("")
@@ -18,8 +28,51 @@ const MinMaxTypeFilter = (props) => {
     const [suggestionMinFilter, setSuggestionMinFilter] = useState(false)
     const [suggestionMaxFilter, setSuggestionMaxFilter] = useState(false)
 
-    const [minDropOpenTop,setMinDropOpenTop] = useState(false)
-    const [maxDropOpenTop,setMaxDropOpenTop] = useState(false)
+    const [minDropOpenTop, setMinDropOpenTop] = useState(false)
+    const [maxDropOpenTop, setMaxDropOpenTop] = useState(false)
+
+    const [queryStirng] = useSearchParams();
+
+
+    const regexMinMaxUrl = /(^((-\d+)|(\d+\-)|(\d+\-\d+))$)/g;
+
+
+    useEffect(() => {
+        // console.log("executeddddd.............");
+        // console.log(queryStirng.get('price'));
+        // console.log(props.slug);
+        
+        if (queryStirng.has(props.slug)) {
+            if (regexMinMaxUrl.test(queryStirng.get(props.slug))) {
+                let filterArray = queryStirng.get(props.slug).split("-");
+                let minFilterUrl = filterArray[0];
+                let maxFilterUrl = filterArray[1];
+                changeMinHandler(minFilterUrl);
+                changeMaxHandler(maxFilterUrl);
+                console.log(filterArray);
+                console.log("قیمت معبتر است..");
+
+            } else {
+                console.log("قیمت نامعبتر است..");
+            }
+
+        } else {
+            setMinFilter("")
+            setMaxFilter("")
+        }
+
+        //^-?(\d+)-?$
+        //^((-\d+)|(\d+\-)|(\d+\-\d+))$
+
+    }, [queryStirng,cat,city])
+
+
+    // useEffect(()=>{
+    //     console.log('cat ...');
+    //     changeMinHandler('');
+    //     changeMaxHandler('');
+    // },[cat,city])
+
 
 
     const chooseMinFilter = (event) => {
@@ -27,18 +80,24 @@ const MinMaxTypeFilter = (props) => {
         console.log(event.target.getAttribute('data-val'));
         let value = event.target.getAttribute('data-val');
         let formatValue = format(value);
-        setMinFilter(formatValue)
+        // setMinFilter(formatValue)
         setSuggestionMinFilter(false)
+        // console.log(["min:",value]);
+        props.urlMaker(props.slug, value, "min")
         // inputMinFilter.current.focus()
     }
+
     const chooseMaxFilter = (event) => {
         event.preventDefault();
         console.log(event.target.getAttribute('data-val'));
         let value = event.target.getAttribute('data-val');
         let formatValue = format(value);
-        setMaxFilter(formatValue)
+        // setMaxFilter(formatValue)
         setSuggestionMaxFilter(false)
         // inputMaxFilter.current.focus()
+        // console.log(["max:",value]);
+        props.urlMaker(props.slug, value, "max")
+
     }
 
     function format(input) {
@@ -56,14 +115,17 @@ const MinMaxTypeFilter = (props) => {
     }
 
     function changeMinHandler(val) {
-
+        console.log("changeddd min..");
         let newVal = format(val)
         setMinFilter(newVal)
+
     }
 
     function changeMaxHandler(val) {
+        console.log("changeddd max..");
         let newVal = format(val)
         setMaxFilter(newVal)
+
     }
 
     function focusInputMin() {
@@ -78,8 +140,11 @@ const MinMaxTypeFilter = (props) => {
         setMaxFilter("")
     }
     const clearFilter = () => {
-        setMinFilter("")
-        setMaxFilter("")
+        // props.urlMaker(props.slug, '', "max")
+
+        // setMinFilter("")
+        // setMaxFilter("")
+        props.urlClearMaker()
     }
 
     const onBlurMinInput = () => {
@@ -96,12 +161,12 @@ const MinMaxTypeFilter = (props) => {
 
     const onClickMaxDiv = () => {
         inputMaxFilter.current.focus()
-        let divRect =inputMinFilter.current.getBoundingClientRect().bottom;
+        let divRect = inputMinFilter.current.getBoundingClientRect().bottom;
         let bottomOffset = window.innerHeight - divRect
         console.log(bottomOffset);
-        if(bottomOffset<200){
+        if (bottomOffset < 200) {
             setMaxDropOpenTop(true)
-        }else{
+        } else {
             setMaxDropOpenTop(false)
         }
         setSuggestionMaxFilter(true)
@@ -112,23 +177,28 @@ const MinMaxTypeFilter = (props) => {
         // console.log(window.innerHeight);
         // console.log(window.pageYOffset);
         // console.log(inputMinFilter.current.getBoundingClientRect().bottom);
-        let divRect =inputMinFilter.current.getBoundingClientRect().bottom;
+        let divRect = inputMinFilter.current.getBoundingClientRect().bottom;
         let bottomOffset = window.innerHeight - divRect
-        console.log(bottomOffset);
-        if(bottomOffset<200){
+        // console.log(bottomOffset);
+        if (bottomOffset < 200) {
             setMinDropOpenTop(true)
-        }else{
+        } else {
             setMinDropOpenTop(false)
         }
         setSuggestionMinFilter(true)
-        
+
     }
 
     const clearMinHandler = () => {
         setMinFilter("")
+        props.urlMaker(props.slug, '', "min")
+
+
     }
     const clearMaxHandler = () => {
         setMaxFilter("")
+        props.urlMaker(props.slug, '', "max")
+
     }
 
     return (
@@ -160,7 +230,7 @@ const MinMaxTypeFilter = (props) => {
                                 <div className='dv-filter-button'>
 
                                     <div className='dv-clear-input' onClick={clearMinHandler}>
-                                       {minFilter.length > 0 ? <TiDelete /> : null} 
+                                        {minFilter.length > 0 ? <TiDelete /> : null}
                                     </div>
 
                                     <div className='d-flex flex-row flex-fill' onClick={onClickMinDiv}>
@@ -177,11 +247,11 @@ const MinMaxTypeFilter = (props) => {
 
                                         <Fade in={suggestionMinFilter}>
                                             <div id="suggestion-min-filter">
-                                                <Dropdown.Menu className={`dv-suggest-box ${minDropOpenTop?"top":"bottom"} `}  show={suggestionMinFilter ? true : false}>
+                                                <Dropdown.Menu className={`dv-suggest-box ${minDropOpenTop ? "top" : "bottom"} `} show={suggestionMinFilter ? true : false}>
                                                     <Dropdown.Header onClick={focusInputMin}>وارد کردن مقدار دلخواه</Dropdown.Header>
 
                                                     {
-                                                        props.suggestListMin.map((item,index) => {
+                                                        props.suggestListMin.map((item, index) => {
                                                             return <Dropdown.Item key={index} data-val={item} onClick={(e) => chooseMinFilter(e)}>{item.toLocaleString()} {props.unit}</Dropdown.Item>
                                                         })
                                                     }
@@ -198,7 +268,7 @@ const MinMaxTypeFilter = (props) => {
 
 
                                     <div className='dv-clear-input' onClick={clearMaxHandler}>
-                                    {maxFilter.length > 0 ? <TiDelete /> : null} 
+                                        {maxFilter.length > 0 ? <TiDelete /> : null}
                                     </div>
                                     <div className='d-flex flex-row flex-fill' onClick={onClickMaxDiv}>
                                         <Form.Control className='filterform' ref={inputMaxFilter} autoFocus value={maxFilter}
@@ -212,10 +282,10 @@ const MinMaxTypeFilter = (props) => {
                                         </span>
                                         <Fade in={suggestionMaxFilter}>
                                             <div id="suggestion-max-filter">
-                                                <Dropdown.Menu className={`dv-suggest-box ${maxDropOpenTop?"top":"bottom"}`}  show={suggestionMaxFilter ? true : false}>
+                                                <Dropdown.Menu className={`dv-suggest-box ${maxDropOpenTop ? "top" : "bottom"}`} show={suggestionMaxFilter ? true : false}>
                                                     <Dropdown.Header onClick={focusInputMax}>وارد کردن مقدار دلخواه</Dropdown.Header>
                                                     {
-                                                        props.suggestListMax.map((item,index) => {
+                                                        props.suggestListMax.map((item, index) => {
                                                             return <Dropdown.Item key={index} data-val={item} onClick={(e) => chooseMaxFilter(e)}>{item.toLocaleString()} {props.unit}</Dropdown.Item>
                                                         })
                                                     }

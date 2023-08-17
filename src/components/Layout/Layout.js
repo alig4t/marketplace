@@ -10,7 +10,7 @@ const Layout = (props) => {
     
     const currentCity = useContext(CityContext)
     useEffect(()=>{
-        console.log("layout Render");
+        // console.log("layout Render");
         // console.log(currentCity);
         // console.log('ssssssssssss');
     })

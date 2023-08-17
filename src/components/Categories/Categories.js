@@ -33,8 +33,8 @@ const Categories = ({ devicePhone, closeModal }) => {
     })
 
     useEffect(() => {
-        console.log("Categories Render..");
-        console.log(catShow);
+        // console.log("Categories Render..");
+        // console.log(catShow);
     })
 
 

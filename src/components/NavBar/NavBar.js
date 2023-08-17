@@ -16,6 +16,8 @@ import CityModal from '../Modal/CityModal';
 // import { CityContext } from '../../Context/CityContext';
 import { Fade } from 'react-bootstrap';
 import { CityContext } from '../../Context/CityContext';
+import { Link } from 'react-router-dom';
+import { URLMaker } from '../../Utils/Utils';
 
 const NavBar = () => {
     
@@ -25,7 +27,7 @@ const NavBar = () => {
     // console.log(currentCity);
 
     useEffect(()=>{
-        console.log("Navbar Render");
+        // console.log("Navbar Render");
     })
 
     const expand = "lg"
@@ -40,9 +42,10 @@ const NavBar = () => {
                 <Container fluid>
 
                     <div className='d-flex dv-head-flexbox align-items-center flex-fill'>
-                        <Navbar.Brand className='d-none d-md-block' href="#">
+
+                        <Link to={URLMaker(currentCity.citiesList,"")} className='navbar-brand d-none d-md-block'>
                             دیوار
-                        </Navbar.Brand>
+                        </Link>
                         <div className="d-none d-md-block vr h-75 mx-2 my-auto"></div>
                         <Button onClick={handleCityModalShow} variant="" className="d-none d-md-block dv-city-select-btn me-3 me-xl-5">
                             <span>
