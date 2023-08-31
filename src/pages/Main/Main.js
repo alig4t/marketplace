@@ -22,17 +22,8 @@ import NotFound from '../../components/UI/404/NotFound';
 
 const Main = (props) => {
 
-    let uurl = ['teh', '', '?sssssss', '', 'ww']
 
-    console.log(uurl.filter((item) => item !== ''));
-
-
-
-
-
-
-
-
+   
 
     const navigate = useNavigate()
 
@@ -58,6 +49,11 @@ const Main = (props) => {
     const [currentCat, setCurrentCat] = useState({ id: -1 });
 
     const [notFound, setNotFound] = useState(false)
+
+    useEffect(()=>{
+        console.log(cat);
+    })
+
 
     // http://localhost:3000/s/iran/real-estate?cities=113%2C172&meter=-120&price=55-66
 
@@ -151,8 +147,7 @@ const Main = (props) => {
 
 
     useEffect(() => {
-        // console.log(cat);
-        // console.log(cat);
+
         if(cat !== undefined){
             let catObj = CatList.find((item) => item.slug === cat)
             console.log(catObj);
@@ -167,19 +162,16 @@ const Main = (props) => {
                 localStorage.removeItem("catSlug")
                 setNotFound(true)
             }
+        }else{
+            console.log("999999999");
+            setCurrentCat({ id: -1 })
+            localStorage.removeItem("catSlug")
+            setNotFound(false)
         }
-
-       
-        // console.log(catObj);
-        // console.log(catObj);
-        // console.log("<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>");
 
     }, [cat])
 
-    useEffect(() => {
-        // console.log(currentCity);
-
-    }, [])
+   
 
     return (
         <CityContext.Provider value={currentCity}>

@@ -10,6 +10,7 @@ import Spin from './components/UI/Spin';
 import SelectCity from './pages/SelectCity/SelectCity';
 import { useEffect } from 'react';
 import { CityProvider } from './Context/CityContext';
+import NotFoundPage from './pages/404/NotFoundPage';
 
 function App() {
 
@@ -24,8 +25,8 @@ function App() {
           <Route path='/s/:city/:cat?' element={<Main />} />
           {/* <Route path='/' lazy={()=>import('./components/UI/Spin')} element={<Main />} /> */}
           {/* <Route path='/s' lazy={<Spin />} element={<Main />} /> */}
-          <Route path='*' element={<h1>Not Found............</h1>} />
-          <Route path='/s' element={<h1>Not Found............</h1>} />
+          <Route path='*' element={<NotFoundPage />} />
+          <Route path='/s' element={<NotFoundPage />} />
         </Routes>
    
       {/* <Routes>

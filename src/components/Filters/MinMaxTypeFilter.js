@@ -33,7 +33,6 @@ const MinMaxTypeFilter = (props) => {
 
     const [queryStirng] = useSearchParams();
 
-
     const regexMinMaxUrl = /(^((-\d+)|(\d+\-)|(\d+\-\d+))$)/g;
 
 
@@ -144,7 +143,7 @@ const MinMaxTypeFilter = (props) => {
 
         // setMinFilter("")
         // setMaxFilter("")
-        props.urlClearMaker()
+        props.urlClearMaker(props.slug)
     }
 
     const onBlurMinInput = () => {

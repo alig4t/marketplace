@@ -11,63 +11,91 @@ import { BiSearch } from 'react-icons/bi';
 
 import distJson from "./../District/districts.json"
 import { Form, ListGroup } from 'react-bootstrap';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 
 const DistrictModal = (props) => {
 
+
   const [districtsShow, setDistrictsShow] = useState([])
   const [AllDistricts, setAllDistricts] = useState([])
-  const [prevSelected] = useState(((props.currentDistricts).sort()).join(""))
+  // const [prevSelected] = useState(((props.currentDistricts).sort()).join(""))
 
   const [selectedDistricts, setSelectedDistricts] = useState([])
   const [clickableBtn, setClickableBtn] = useState(false);
 
-  const city = 113;
+  let { city, cat } = useParams()
+  // console.log(city);
+  const [queryStirng] = useSearchParams();
+  const districtValue = queryStirng.get("districts")
 
-  useEffect(()=>{
+  // const city = 113;
+
+  useEffect(() => {
     // console.log(AllDistricts);
     // console.log(selectedDistricts);
     // console.log(districtsShow);
+    console.log("مودال محه");
   })
 
 
+  const navigateUrl = () => {
+    console.log(selectedDistricts);
+    let ids = [];
+    selectedDistricts.forEach((mahal) => {
+      ids.push(mahal.id);
+    })
+    props.urlMaker(props.slug,ids)
+    props.closeModal()
+  }
+
+
   useEffect(() => {
-    let mahaleList = distJson.filter((mahal) => {
-      return mahal.city === city
-    })
-    mahaleList = mahaleList.map((item) => {
-      let checekdStatus = props.currentDistricts.includes(item.id) ? true : false
-      return { ...item, "checked": false }
-    })
-
-    let selectMahalBadgeArray = [];
+      console.log("districtValue");
+    if (props.showModal) {
 
 
-    props.currentDistricts.map((mahalId)=>{
-      let index = mahaleList.findIndex(mahal=>mahal.id===mahalId)
-      mahaleList[index].checked = true;
-      selectMahalBadgeArray.push({id:mahaleList[index].id,title:mahaleList[index].title})
-    })
+      console.log(props.currentDistricts);
+      let mahaleList = distJson.filter((mahal) => {
+        return mahal.city === 113
+      })
+      mahaleList = mahaleList.map((item) => {
+        let checekdStatus = props.currentDistricts.includes(item.id) ? true : false
+        return { ...item, "checked": false }
+      })
 
-    // console.log(mahaleList);
-    setDistrictsShow(mahaleList)
-    setAllDistricts(mahaleList)
-    setSelectedDistricts(selectMahalBadgeArray)
-  }, [])
+      let selectMahalBadgeArray = [];
 
-  useEffect(()=>{
+
+      props.currentDistricts.map((mahalId) => {
+        let index = mahaleList.findIndex(mahal => mahal.id === mahalId)
+        mahaleList[index].checked = true;
+        selectMahalBadgeArray.push({ id: mahaleList[index].id, title: mahaleList[index].title })
+      })
+
+      // console.log(mahaleList);
+      setDistrictsShow(mahaleList)
+      setAllDistricts(mahaleList)
+      setSelectedDistricts(selectMahalBadgeArray)
+    }
+  }, [props.showModal])
+
+  useEffect(() => {
+    console.log(selectedDistricts);
     let ids = [];
     selectedDistricts.forEach((mahal) => {
       ids.push(mahal.id);
     })
     let newSelectedStr = (ids.sort()).join("");
-    if (selectedDistricts.length === 0 || prevSelected == newSelectedStr) {
+    let prevSelected = (props.currentDistricts).sort().join("")
+    if (prevSelected == newSelectedStr) {
       setClickableBtn(false)
     } else {
       setClickableBtn(true)
     }
-  },[selectedDistricts])
-  
+
+  }, [selectedDistricts])
+
   const deleteCityHandler = (id) => {
     let selectedDup = [...selectedDistricts];
     let districtsDup = [...AllDistricts];
@@ -84,7 +112,7 @@ const DistrictModal = (props) => {
 
   }
 
-  
+
   const searchDistrictHandler = txt => {
 
     let allmahale = [...AllDistricts]
@@ -160,11 +188,11 @@ const DistrictModal = (props) => {
               )
             })
           }
-          {selectedDistricts.length === 0 ? <h4>حداقل یک محله انتخاب نمایید</h4> : null}
+          {selectedDistricts.length === 0 ? <h4>حداقل یک {props.title} انتخاب نمایید</h4> : null}
         </div>
 
         <div className='d-block w-100 mt-3 px-2 position-relative'>
-          <Form.Control type="text" className='dv-modalsearch' placeholder="جستجو در محله ها" onChange={e => searchDistrictHandler(e.target.value)} />
+          <Form.Control type="text" className='dv-modalsearch' placeholder="جستجو در {محله} ها" onChange={e => searchDistrictHandler(e.target.value)} />
           <span className='dv-search-modal-icon'><BiSearch /></span>
         </div>
 
@@ -191,7 +219,7 @@ const DistrictModal = (props) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant='light' className='dv-btn-closemodal' onClick={props.closeModal}>انصراف</Button>
-        <Button variant={clickableBtn ? "danger" : "light"} className='dv-btn-closemodal not-allowed' onClick={props.closeModal} disabled={clickableBtn ? false : true}>تایید</Button>
+        <Button variant={clickableBtn ? "danger" : "light"} className='dv-btn-closemodal not-allowed' onClick={navigateUrl} disabled={clickableBtn ? false : true}>تایید</Button>
 
       </Modal.Footer>
     </Modal>

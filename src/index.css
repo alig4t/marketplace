@@ -1125,6 +1125,7 @@ p {
   cursor: pointer;
   display: flex;
   flex-grow: 1;
+  text-align: center;
   justify-content: center;
   min-height: 38px;
   min-width: 64px;

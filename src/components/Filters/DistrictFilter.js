@@ -1,23 +1,61 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Collapse, ListGroup } from 'react-bootstrap';
 import DistrictModal from '../Modal/DistrictModal';
 import { FiChevronDown } from "react-icons/fi"
 import { FiChevronUp } from "react-icons/fi"
 import { BiChevronLeft } from "react-icons/bi"
+import { useParams, useSearchParams } from 'react-router-dom';
 
-const DistrictFilter = () => {
+const DistrictFilter = (props) => {
     const [mahalOpen, setMahalOpen] = useState(false);
     const [districtModal, setDistrictModal] = useState(false)
-    const [currentDistricts, setCurrentDistricts] = useState([16, 12])
+    const [currentDistricts, setCurrentDistricts] = useState([])
+
+    const regexDistrict = /(^\d+(\,\d+)*$)/g;
+
+
+    let { city, cat } = useParams()
+    const [queryStirng] = useSearchParams();
+
 
     const openModalDistrictHandler = () => {
-        console.log('sss');
         setDistrictModal(true)
     }
-    const clearMahal = () => {
-        setCurrentDistricts([])
+    const clearFilter = () => {
+        // setCurrentDistricts([])
+        props.urlMaker(props.slug,[])
     }
+
+
+    useEffect(() => {
+        console.log("کامپوننت محله باکس");
+
+        if (queryStirng.has(props.slug)) {
+            let urlValStr = queryStirng.get(props.slug)
+            console.log(urlValStr);
+            console.log(props.itemsList);
+            if (regexDistrict.test(urlValStr)) {
+                let checkListArray = [];
+                let urlValArray = urlValStr.split(',');
+                urlValArray.forEach((val) => {
+                    let inItemsArray = props.itemsList.filter(item => item.id === parseInt(val))
+                    console.log(val.toLowerCase(), typeof val);
+                    if (inItemsArray.length === 1 && !checkListArray.includes((parseInt(val)))) {
+                        checkListArray.push(parseInt(val))
+                    }
+                })
+                setCurrentDistricts(checkListArray)
+                console.log(checkListArray);
+            } else {
+                setCurrentDistricts([])
+                console.log("سسسسسسسسسسسسسسسسسس");
+            }
+        } else {
+            setCurrentDistricts([])
+        }
+    }, [queryStirng, cat, city])
+
 
     return (
         <>
@@ -27,10 +65,10 @@ const DistrictFilter = () => {
                         <span className='pe-2'>
                             {mahalOpen ? <FiChevronUp /> : <FiChevronDown />}
                         </span>
-                        <p>محله</p>
+                        <p>{props.title}</p>
                     </div>
                     {
-                        (currentDistricts.length > 0) ? mahalOpen ? <span className='reset-filter-span-open' onClick={clearMahal}>حذف</span> : <span className='reset-filter-span-close' /> : null
+                        (currentDistricts.length > 0) ? mahalOpen ? <span className='reset-filter-span-open' onClick={clearFilter}>حذف</span> : <span className='reset-filter-span-close' /> : null
                     }
                 </ListGroup>
 
@@ -53,7 +91,15 @@ const DistrictFilter = () => {
                 </Collapse>
             </div>
 
-            {< DistrictModal showModal={districtModal} devicePhone={true} currentDistricts={currentDistricts} closeModal={() => setDistrictModal(false)} />}
+            {< DistrictModal
+                showModal={districtModal}
+                devicePhone={true}
+                currentDistricts={currentDistricts}
+                title={props.title}
+                slug={props.slug}
+                urlMaker={props.urlMaker}
+                closeModal={() => setDistrictModal(false)}
+            />}
         </>
     );
 }
