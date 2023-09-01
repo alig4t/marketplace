@@ -24,6 +24,7 @@ import { CategoryContext } from '../../Context/CategoryContext';
 import { URLMakerWithHash } from '../../Utils/Utils';
 
 const Main = () => {
+	
     const navigate = useNavigate()
     const location = useLocation()
     const [queryStirng] = useSearchParams();
