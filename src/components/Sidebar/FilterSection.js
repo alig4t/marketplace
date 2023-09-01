@@ -57,6 +57,16 @@ const FilterSection = () => {
             ]
         },
         {
+            slug: "brand",
+            type: "DistrictFilter",
+            title: "برند",
+            itemsList: [
+                { "id": 12, "title": "ایسر"},
+                { "id": 13, "title": "سامسونگ"},
+                { "id": 14, "title": "الجی"},
+            ]
+        },
+        {
             slug: "meter",
             type: "MinMaxTypeFilter",
             title: "متراژ",
@@ -325,6 +335,7 @@ const FilterSection = () => {
         if (slug in filters) {
             console.log(filters[slug]);
             let currentValueArray = filters[slug].split(',');
+            currentValueArray = [...new Set(currentValueArray)]; // remove duplicated from array
             if (currentValueArray.includes(value)) {
                 let index = currentValueArray.indexOf(value)
                 if (index > -1) {

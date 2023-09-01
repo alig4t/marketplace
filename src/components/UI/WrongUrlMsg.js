@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Fade } from 'react-bootstrap';
-import { CSSTransition } from 'react-transition-group'
 
 const WrongUrlMsg = ({ currentCity }) => {
 
-    console.log(currentCity);
-
+    /*************************** Show Message State (True/False) ***************************/
     const [activeClass, setActiveClass] = useState(false)
-
+    
+    /*************************** Message Box Style ***************************/
     const msgBox = {
         position: "fixed",
         bottom: "80px",
         textAlign: "center"
     }
-
     const msgStyle = {
         backgroundColor: "#2d3436",
         color: "#fdfdfd",
@@ -23,18 +21,17 @@ const WrongUrlMsg = ({ currentCity }) => {
         borderRadius: "4px"
     }
 
-    // useEffect(() => {
-    //     setTimeout(()=>{
-    //         setActiveClass(false)
-    //     })
-    // }, [2000])
+    /*************************** Show Message after 1 second ***************************/
     useEffect(() => {
         setTimeout(() => {
             setActiveClass(true)
         }, 1000)
     }, [])
 
+
+    /*************************** Hide Message after 3 seconds ***************************/
     useEffect(() => {
+        console.log("رانگ مسیچ");
         if (activeClass) {
             setTimeout(() => {
                 setActiveClass(false)
@@ -42,11 +39,8 @@ const WrongUrlMsg = ({ currentCity }) => {
         }
     })
 
-    // const cityTitle = currentCity.citiesList.length > 1 ?
-    //  " " +currentCity.citiesList[0].title + " و " + (currentCity.citiesList.length - 1) + " شهر دیگر " :
-    // " " + currentCity.citiesList[0].title +" "
+    /*************************** Message Content ***************************/
     let cityTitle = ""
-
     if(currentCity === ""){
         cityTitle = "لطفا شهر مورد نظر را انتخاب نمایید."
     }else{
@@ -63,18 +57,13 @@ const WrongUrlMsg = ({ currentCity }) => {
             in={activeClass}
             timeout={300}
         >
-
             <div className='w-100' style={msgBox} onClick={() => setActiveClass(false)}>
                 <span style={msgStyle}>
                     لینک مشکل داشت، 
-                    {cityTitle}
-                   
+                    {cityTitle} 
                 </span>
             </div>
-
-
         </Fade>
-
     );
 }
 

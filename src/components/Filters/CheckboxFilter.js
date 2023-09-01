@@ -10,6 +10,7 @@ const CheckboxFilter = (props) => {
 
     let { city, cat } = useParams()
     const [queryStirng] = useSearchParams();
+    const filterParam = queryStirng.get(props.slug)
 
     const regexUrl = /(^(\d+|\w+))(\,(\d+|\w+))*$/g
 
@@ -37,7 +38,7 @@ const CheckboxFilter = (props) => {
                 console.log(urlValArray);
                 urlValArray.forEach((val) => {
                     let inItemsArray = props.itemsList.filter(item => item.value === val)
-                    if (inItemsArray.length === 1) {
+                    if (inItemsArray.length === 1 && !checkListArray.includes(val)) {
                         checkListArray.push(val)
                     }
                 })
@@ -51,7 +52,7 @@ const CheckboxFilter = (props) => {
         }else{
             setCheckBoxList([])
         }
-    }, [queryStirng, cat, city])
+    }, [filterParam, cat, city])
 
 
     return (

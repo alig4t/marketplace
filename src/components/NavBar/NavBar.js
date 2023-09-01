@@ -1,5 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 
+/*************************** React Bootsrap Components ***************************/
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -7,29 +9,25 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
+/*************************** React Icons Components ***************************/
 import { MdLocationOn } from 'react-icons/md';
 import { BiSearch } from 'react-icons/bi';
 import { BsPerson } from 'react-icons/bs'
 import { BsChatDots } from 'react-icons/bs'
 
+/*************************** Modal Component for city ***************************/
 import CityModal from '../Modal/CityModal';
-// import { CityContext } from '../../Context/CityContext';
-import { Fade } from 'react-bootstrap';
+
+/*************************** City Context for access current city ***************************/
 import { CityContext } from '../../Context/CityContext';
-import { Link } from 'react-router-dom';
+
+/*************************** Make URL Function ***************************/
 import { URLMaker } from '../../Utils/Utils';
 
+
 const NavBar = () => {
-    
-    // console.log("Navbar Render");
+
     const currentCity = useContext(CityContext)
-    
-    // console.log(currentCity);
-
-    useEffect(()=>{
-        // console.log("Navbar Render");
-    })
-
     const expand = "lg"
     const [cityModalShow, setCityModalShow] = useState(false)
     const handleCityModalShow = () => setCityModalShow(true);
@@ -43,7 +41,7 @@ const NavBar = () => {
 
                     <div className='d-flex dv-head-flexbox align-items-center flex-fill'>
 
-                        <Link to={URLMaker(currentCity.citiesList,"")} className='navbar-brand d-none d-md-block'>
+                        <Link to={URLMaker(currentCity.citiesList, "")} className='navbar-brand d-none d-md-block'>
                             دیوار
                         </Link>
                         <div className="d-none d-md-block vr h-75 mx-2 my-auto"></div>
@@ -51,40 +49,8 @@ const NavBar = () => {
                             <span>
                                 <MdLocationOn />
                             </span>
-                            {/* {currentCity.citiesList[0].title} */}
                             {currentCity.citiesList.length > 1 ? currentCity.citiesList.length + " شهر " : currentCity.citiesList[0].title}
                         </Button>
-
-                        {/* <div class="vr h-50 me-5 ml-4 my-auto"></div> */}
-
-
-                        {/* <Dropdown className='d-md-none dv-cat-drop-btn me-3' align='start'>
-                            <Dropdown.Toggle variant="" id="dropdown-basic">
-                                دسته ها
-                                <span className='dv-arrowdown'>
-                                    <BiChevronDown />
-                                </span>
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu className='dv-megamenu'>
-                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                         <div className="d-flex bd-highlight align-items-center dv-searchbox flex-fill">
@@ -115,7 +81,9 @@ const NavBar = () => {
                     >
                         <Offcanvas.Header closeButton>
                             <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                                دیوار
+                    
+                                {process.env.REACT_APP_BASE_TITLE}
+                    
                             </Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
@@ -135,8 +103,7 @@ const NavBar = () => {
             </Navbar>
 
             <CityModal show={cityModalShow} close={handleCityModalClose} />
-            {/* {cityModalShow ? '' : null} */}
-
+ 
         </>
     );
 }

@@ -29,27 +29,27 @@ const DistrictFilter = (props) => {
 
 
     useEffect(() => {
-        console.log("کامپوننت محله باکس");
+        // console.log("کامپوننت محله باکس");
 
         if (queryStirng.has(props.slug)) {
             let urlValStr = queryStirng.get(props.slug)
-            console.log(urlValStr);
-            console.log(props.itemsList);
+            // console.log(urlValStr);
+            // console.log(props.itemsList);
             if (regexDistrict.test(urlValStr)) {
                 let checkListArray = [];
                 let urlValArray = urlValStr.split(',');
                 urlValArray.forEach((val) => {
                     let inItemsArray = props.itemsList.filter(item => item.id === parseInt(val))
-                    console.log(val.toLowerCase(), typeof val);
+                    // console.log(val.toLowerCase(), typeof val);
                     if (inItemsArray.length === 1 && !checkListArray.includes((parseInt(val)))) {
                         checkListArray.push(parseInt(val))
                     }
                 })
                 setCurrentDistricts(checkListArray)
-                console.log(checkListArray);
+                // console.log(checkListArray);
             } else {
                 setCurrentDistricts([])
-                console.log("سسسسسسسسسسسسسسسسسس");
+                // console.log("سسسسسسسسسسسسسسسسسس");
             }
         } else {
             setCurrentDistricts([])
@@ -81,7 +81,7 @@ const DistrictFilter = (props) => {
                                     <div className='dv-clear-input'>
                                     </div>
                                     <p className='align-self-center'>
-                                        {currentDistricts.length === 0 ? "تعیین محل" : currentDistricts.length + " محله "}
+                                        {currentDistricts.length === 0 ? "تعیین " + props.title : currentDistricts.length +" "+ props.title}
                                     </p>
                                 </div>
                                 <span className='align-self-center'><BiChevronLeft /></span>
@@ -94,6 +94,7 @@ const DistrictFilter = (props) => {
             {< DistrictModal
                 showModal={districtModal}
                 devicePhone={true}
+                itemsList={props.itemsList}
                 currentDistricts={currentDistricts}
                 title={props.title}
                 slug={props.slug}

@@ -10,13 +10,14 @@ import { capitalizeFirstLetter } from '../../Utils/Utils';
 const StatusFilter = (props) => {
 
     const [statusOpen, setStatusOpen] = useState(false);
-    const [switchFilters, setSwitchFilters] = useState({"hasSwitchOn":false,"list":{}})
+    const [switchFilters, setSwitchFilters] = useState({ "hasSwitchOn": false, "list": {} })
 
     const [queryStirng] = useSearchParams();
+
+    // console.log(filterParam);
     let { city, cat } = useParams()
 
     const regexHasPhotoOrUrgent = /^(has-photo|urgent)=((true)|(false))(&(has-photo|urgent)=((true)|(false)))*$/g;
-
 
     const clearStatus = () => {
         props.urlClear(props.itemsList)
@@ -25,13 +26,13 @@ const StatusFilter = (props) => {
 
     useEffect(() => {
         console.log("کامپوننت استاتوس");
-       
+
         let switchObject = {}
         switchObject["hasSwitchOn"] = false
         switchObject["list"] = {}
 
         props.itemsList.forEach(element => {
-            let switchOn = false 
+            let switchOn = false
             // console.log(element.slug);
             if (queryStirng.has(element.slug) && queryStirng.get(element.slug) === "true") {
                 switchOn = true
@@ -63,7 +64,7 @@ const StatusFilter = (props) => {
                 <div id="status-box">
                     <div className='mb-3'>
 
-                        {props.itemsList.map((item,index) => {
+                        {props.itemsList.map((item, index) => {
                             return <div className="dv-filter-switch" onClick={() => props.urlMaker(item.slug)}>
                                 <p className='align-self-center'>{item.title}</p>
                                 <span className='align-self-center'>

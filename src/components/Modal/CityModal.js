@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useContext, memo } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Badge, ListGroup, Form, Modal } from 'react-bootstrap';
@@ -13,7 +13,7 @@ import CityListJson from "./../../JsonFiles/city.json"
 import { CityContext } from '../../Context/CityContext';
 import { CategoryContext } from '../../Context/CategoryContext';
 import { URLMaker } from '../../Utils/Utils';
-// import ButtonTest from '../UI/ButtonTest';
+
 
 function CityModal(props) {
 
@@ -38,14 +38,6 @@ function CityModal(props) {
   const navigate = useNavigate()
 
 
-  // useEffect(() => {
-  //   console.log("Cityyyyyyyyyyyyyyyyyyyyyyyy");
-  // }, [currentCity])
-
-  useEffect(()=>{
-    // console.log("CityModal Render..");
-  })
-
 
   /*********************  When  Rerendered, the following useEffect is executed   *********************/
   /*********************  compare selected city with prevSelected  *********************/
@@ -65,11 +57,6 @@ function CityModal(props) {
 
 
   /********************* It is executed when currentCity changes  *********************/
-  const showInitialStates = () => {
-
-  }
-
-
   useEffect(() => {
 
     let initialstate = [];
@@ -98,13 +85,6 @@ function CityModal(props) {
     })
 
   }, [currentCity])
-
-
-  // useEffect(() => {
-  //   showInitialStates()
-  // }, [currentCity])
-
-
 
   const searchCityHandler = txt => {
 

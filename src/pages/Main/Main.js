@@ -1,115 +1,70 @@
-import React, { useContext, useEffect, useState, useQuery } from 'react';
+
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+
+/*************************** React Bootstrap Components ***************************/
+import { Container, Row } from 'react-bootstrap';
+
+/*************************** Components ***************************/
 import Layout from "../../components/Layout/Layout"
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Cards from '../../components/Cards/Cards';
-import { Container, Row } from 'react-bootstrap';
-import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-// import Test from '../../components/test/Test';
+import WrongUrlMsg from '../../components/UI/WrongUrlMsg';
+import NotFound from '../../components/UI/404/NotFound';
+
+/*************************** City And Category JSON files ***************************/
 import CityList from "../../JsonFiles/city.json"
 import CatList from "../../JsonFiles/catlist.json"
 
+/*************************** City And Category Contextes ***************************/
 import { CityContext } from '../../Context/CityContext';
 import { CategoryContext } from '../../Context/CategoryContext';
-import { URLMaker, URLMakerWithHash } from '../../Utils/Utils';
-import WrongUrlMsg from '../../components/UI/WrongUrlMsg';
 
+/*************************** Essentials Functions ***************************/
+import { URLMakerWithHash } from '../../Utils/Utils';
 
-import NotFound from '../../components/UI/404/NotFound';
-
-
-// import { CityContext, CityProvider } from '../../Context/CityContext';
-
-
-const Main = (props) => {
-
-
-   
-
+const Main = () => {
     const navigate = useNavigate()
+    const location = useLocation()
+    const [queryStirng] = useSearchParams();
+    const cityParam = queryStirng.get('cities')
+    let { city, cat } = useParams()
 
+    /*************************** Regex for validate city Ids ***************************/
     const regexStr = /(^\d+(\,\d+)*$)/g;
     const regexHash = /(^\d+(\%2C\d+)*$)/g;
 
-    const location = useLocation()
-
-    console.log(location);
-
-    const [queryStirng] = useSearchParams();
-    // console.log(queryStirng.get('cities'));
-
-    // console.log('Main Redner');
-    let { city, cat } = useParams()
-
+    /*************************** States ***************************/
     const [currentCity, setCurrentCity] = useState({
         idsStr: "",
         idsArray: [],
         citiesList: [{ title: "" }]
     });
-
     const [currentCat, setCurrentCat] = useState({ id: -1 });
-
     const [notFound, setNotFound] = useState(false)
 
-    useEffect(()=>{
-        console.log(cat);
-    })
 
-
-    // http://localhost:3000/s/iran/real-estate?cities=113%2C172&meter=-120&price=55-66
-
-    // useEffect(() => {
-    //     let quertObject = {}
-    //     console.log("Query String Has Been Changed..");
-    //     let urlQueryString = location.search.slice(1);
-    //     let urlQueryArray = urlQueryString.split("&");
-    //     urlQueryArray.forEach((item) => {
-    //         let subQuery = item.split("=");
-    //         quertObject = { ...quertObject, [subQuery[0]]: subQuery[1] }
-    //     })
-    //     console.log(quertObject);
-    // }, [queryStirng])
-
-    // useEffect(()=>{
-    //     console.log(currentCity);
-    // })
-
+    /*************************** Execute when City Changed ***************************/
     useEffect(() => {
 
+        console.log("سیییییتییییییییییی");
         let ids = [];
         let wrongAddress = false;
         let cityListArray = []
-        // let cityObj = {}
-        if (city === 'iran') {
 
-            if (queryStirng.has('cities')) {
-                let citiesIdsString = queryStirng.get('cities');
-                // console.log(citiesIdsString);
+        if (city === 'iran' && queryStirng.has('cities') && regexStr.test(queryStirng.get('cities'))) {
 
-                // const regex = /(^\d+(\%2C\d+)*$)/gm;
-
-                if (regexStr.test(citiesIdsString)) {
-                    // console.log("رشته معتبر است.");
+            let citiesIdsString = queryStirng.get('cities');
+            let citiesIdsArray = citiesIdsString.split(",");
+            citiesIdsArray.forEach(id => {
+                let cityObj = CityList.find((item) => item.id === Number(id))
+                if (cityObj === undefined) {
+                    wrongAddress = true;
                 } else {
-                    // console.log("رشته نااامعتبر است.");
-
+                    cityListArray.push(cityObj)
+                    ids.push(Number(id))
                 }
-
-                // let citiesIdsArray = decodeURIComponent(citiesIdsString);
-                let citiesIdsArray = citiesIdsString.split(",");
-                citiesIdsArray.forEach(id => {
-                    let cityObj = CityList.find((item) => item.id === Number(id))
-                    // console.log(cityObj);
-                    if (cityObj === undefined) {
-                        // console.log("Wrong");
-                        wrongAddress = true;
-                    } else {
-                        cityListArray.push(cityObj)
-                        ids.push(Number(id))
-                    }
-                });
-            } else {
-                wrongAddress = true;
-            }
+            });
 
         } else {
             let singleCityObj = CityList.find((item) => item.slug === city)
@@ -124,9 +79,7 @@ const Main = (props) => {
         if (wrongAddress) {
             let prevCityHash = localStorage.getItem("lastCities");
             let prevCat = localStorage.getItem("catSlug");
-            // console.log(currentCat);
             if (prevCityHash !== null && prevCityHash !== "" && regexHash.test(prevCityHash)) {
-                // console.log("هکس معتبر است");
                 navigate(URLMakerWithHash(prevCityHash, prevCat), { state: { wrong: true } })
             } else {
                 navigate('/', { state: { wrong: true } })
@@ -138,32 +91,27 @@ const Main = (props) => {
                 idsArray: ids,
                 citiesList: cityListArray
             })
-            // console.log(ids.join("%2C"));
             localStorage.setItem("lastCities", ids.join("%2C"))
         }
-
-    }, [city, queryStirng])
-
+    }, [city, cityParam])
 
 
+
+    /*************************** Execute when Category Changed ***************************/
     useEffect(() => {
+        console.log(cat);
 
-        if(cat !== undefined){
+        if (cat !== undefined) {
             let catObj = CatList.find((item) => item.slug === cat)
-            console.log(catObj);
-            setCurrentCat(catObj)
             if (catObj !== undefined) {
-                console.log("11111111111111111111111111111");
+                setCurrentCat(catObj)
                 localStorage.setItem("catSlug", catObj.slug)
                 setNotFound(false)
-    
             } else {
-                console.log("2222222222222222222222222");
                 localStorage.removeItem("catSlug")
                 setNotFound(true)
             }
-        }else{
-            console.log("999999999");
+        } else {
             setCurrentCat({ id: -1 })
             localStorage.removeItem("catSlug")
             setNotFound(false)
@@ -171,28 +119,29 @@ const Main = (props) => {
 
     }, [cat])
 
-   
+
 
     return (
         <CityContext.Provider value={currentCity}>
             <CategoryContext.Provider value={currentCat}>
                 <Layout>
                     <Container fluid>
-                        {notFound === false ? <>
-                            <Row>
-                                <div className='d-none d-md-block col-md-4 col-lg-3'>
-                                    <Sidebar />
-                                </div>
-                                <div className='col-12 col-md-8 col-lg-9'>
-                                    {/* <Cards /> */}
-                                    <Cards />
-                                </div>
-                            </Row>
-                            <Row>
-                                {location.state !== null ? location.state.wrong ? <WrongUrlMsg currentCity={currentCity} /> : "" : ""}
-                            </Row>
-                        </>
-                            : <NotFound />}
+                        {
+                            notFound === false ? <>
+                                <Row>
+                                    <div className='d-none d-md-block col-md-4 col-lg-3'>
+                                        <Sidebar />
+                                    </div>
+                                    <div className='col-12 col-md-8 col-lg-9'>
+                                        <Cards />
+                                    </div>
+                                </Row>
+                                <Row>
+                                    {location.state !== null ? location.state.wrong ? <WrongUrlMsg currentCity={currentCity} /> : "" : ""}
+                                </Row>
+                            </>
+                                : <NotFound />
+                        }
 
                     </Container>
                 </Layout>

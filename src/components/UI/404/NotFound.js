@@ -1,8 +1,11 @@
-import React from 'react';
+
+import { Link } from 'react-router-dom';
+
+/*************************** React Bootstrap Component ***************************/
 import { Row } from 'react-bootstrap';
 
+/*************************** Styles ***************************/
 import classes from "./NotFound.module.css"
-import { Link } from 'react-router-dom';
 
 const NotFound = () => {
     return (

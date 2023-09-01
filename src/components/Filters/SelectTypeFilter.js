@@ -16,7 +16,9 @@ const SelectTypeFilter = (props) => {
 
     let { city, cat } = useParams()
     const [queryStirng] = useSearchParams();
-
+    const filterParam = queryStirng.get(props.slug)
+    
+    // سن بنا
 
     useEffect(() => {
         console.log("کامپوننت سلکت");
@@ -33,7 +35,7 @@ const SelectTypeFilter = (props) => {
         }else{
             setSelectFilter("")
         }
-    },[queryStirng, cat, city])
+    },[filterParam, cat, city])
 
 
     const chooseSelectFilter = (filObject) => {

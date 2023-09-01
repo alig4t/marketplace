@@ -32,6 +32,7 @@ const MinMaxTypeFilter = (props) => {
     const [maxDropOpenTop, setMaxDropOpenTop] = useState(false)
 
     const [queryStirng] = useSearchParams();
+    const filterParam = queryStirng.get(props.slug)
 
     const regexMinMaxUrl = /(^((-\d+)|(\d+\-)|(\d+\-\d+))$)/g;
 
@@ -40,7 +41,7 @@ const MinMaxTypeFilter = (props) => {
         // console.log("executeddddd.............");
         // console.log(queryStirng.get('price'));
         // console.log(props.slug);
-        
+        console.log("کامپوننت مین ماکس");
         if (queryStirng.has(props.slug)) {
             if (regexMinMaxUrl.test(queryStirng.get(props.slug))) {
                 let filterArray = queryStirng.get(props.slug).split("-");
@@ -63,7 +64,7 @@ const MinMaxTypeFilter = (props) => {
         //^-?(\d+)-?$
         //^((-\d+)|(\d+\-)|(\d+\-\d+))$
 
-    }, [queryStirng,cat,city])
+    }, [filterParam,cat,city])
 
 
     // useEffect(()=>{

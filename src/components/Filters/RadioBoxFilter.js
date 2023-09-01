@@ -11,6 +11,8 @@ const RadioBoxFilter = (props) => {
 
     let { city, cat } = useParams()
     const [queryStirng] = useSearchParams();
+    const filterParam = queryStirng.get(props.slug)
+
 
     let obj = useOutletContext()
 
@@ -44,7 +46,7 @@ const RadioBoxFilter = (props) => {
         } else {
             setRadioBoxChecked(props.default)
         }
-    }, [queryStirng, cat, city])
+    }, [filterParam, cat, city])
 
     return (
 

@@ -35,33 +35,38 @@ const DistrictModal = (props) => {
     // console.log(AllDistricts);
     // console.log(selectedDistricts);
     // console.log(districtsShow);
-    console.log("مودال محه");
+    // console.log("مودال محه");
   })
 
 
   const navigateUrl = () => {
-    console.log(selectedDistricts);
+    // console.log(selectedDistricts);
     let ids = [];
     selectedDistricts.forEach((mahal) => {
       ids.push(mahal.id);
     })
-    props.urlMaker(props.slug,ids)
+    props.urlMaker(props.slug, ids)
     props.closeModal()
   }
 
 
   useEffect(() => {
-      console.log("districtValue");
+    // console.log("districtValue");
     if (props.showModal) {
 
 
-      console.log(props.currentDistricts);
-      let mahaleList = distJson.filter((mahal) => {
-        return mahal.city === 113
-      })
-      mahaleList = mahaleList.map((item) => {
+      // console.log(props.currentDistricts);
+      // let mahaleList = distJson.filter((mahal) => {
+      //   return mahal.city === 113
+      // })
+      // mahaleList = mahaleList.map((item) => {
+      //   let checekdStatus = props.currentDistricts.includes(item.id) ? true : false
+      //   return { ...item, "checked": false }
+      // })
+
+      let mahaleList = props.itemsList.map((item) => {
         let checekdStatus = props.currentDistricts.includes(item.id) ? true : false
-        return { ...item, "checked": false }
+        return { ...item, "checked": checekdStatus }
       })
 
       let selectMahalBadgeArray = [];
@@ -81,7 +86,7 @@ const DistrictModal = (props) => {
   }, [props.showModal])
 
   useEffect(() => {
-    console.log(selectedDistricts);
+    // console.log(selectedDistricts);
     let ids = [];
     selectedDistricts.forEach((mahal) => {
       ids.push(mahal.id);
@@ -172,7 +177,7 @@ const DistrictModal = (props) => {
     >
       <Modal.Header className='flex-wrap'>
         <Modal.Title id="contained-modal-title-vcenter">
-          انتخاب محله
+          انتخاب {props.title}
         </Modal.Title>
         {/* <div class="break"></div> */}
         <div className='city-scrollabe w-100 pt-3'>
@@ -192,7 +197,7 @@ const DistrictModal = (props) => {
         </div>
 
         <div className='d-block w-100 mt-3 px-2 position-relative'>
-          <Form.Control type="text" className='dv-modalsearch' placeholder="جستجو در {محله} ها" onChange={e => searchDistrictHandler(e.target.value)} />
+          <Form.Control type="text" className='dv-modalsearch' placeholder={`جستجو در ${props.title} ها`} onChange={e => searchDistrictHandler(e.target.value)} />
           <span className='dv-search-modal-icon'><BiSearch /></span>
         </div>
 
